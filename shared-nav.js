@@ -52,8 +52,8 @@
       </div>
       <div class="footer-column">
         <h3>Contact Us</h3>
-        <p>Email: support@safarsathi4u.com</p>
-        <p>Phone: +91 98765 43210</p>
+        <p>Email: safarsathi4u@gmail.com</p>
+        <p>Phone: +91 9601258617 | 9829629697</p>
         <p>Udaipur, Rajasthan, India</p>
       </div>
       <div class="footer-column">
