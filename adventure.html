@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Adventure Activities — SafarSathi4U</title>
+  <link rel="stylesheet" href="safarsathi.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+  <style>
+    .adv-banner {
+      height:60vh; position:relative;
+      display:flex; align-items:center; justify-content:center;
+      background: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400') center/cover;
+    }
+    .adv-banner::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.5); }
+    .adv-banner .overlay { position:relative; z-index:1; }
+    #adventures { padding: 5rem 2rem; background:#fffaf5; }
+    .section-intro-adv {
+      max-width:750px; margin:0 auto 3rem; text-align:center;
+      font-size:1.05rem; color:#555; line-height:1.8;
+    }
+    .adventure-grid {
+      display: flex; flex-wrap:wrap; justify-content:center; gap:2rem;
+      max-width:1200px; margin:0 auto;
+    }
+    .adventure-card {
+      width:280px; background:#fff; border-radius:12px;
+      overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,0.1);
+      text-align:center; transition:transform 0.3s;
+    }
+    .adventure-card:hover { transform:translateY(-10px); }
+    .adventure-card img { width:100%; height:190px; object-fit:cover; }
+    .adventure-card h3 { font-family:'Playfair Display',serif; color:#1a3c34; font-size:1.15rem; padding:0.8rem 1rem 0.5rem; }
+    .book-now-btn {
+      display:inline-block; margin:0 auto 1.2rem;
+      background:#008080; color:#fff;
+      padding:8px 22px; border-radius:50px;
+      text-decoration:none; font-size:0.88rem; font-weight:600;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .book-now-btn:hover { background:#006666; transform:scale(1.05); }
+  </style>
+</head>
+<body>
+<button id="backArrow" onclick="history.back()">⮪</button>
+<script src="shared-nav.js"></script>
+
+<div class="adv-banner">
+  <div class="overlay" data-aos="fade-up"><h1 style="font-family:'Playfair Display',serif;color:#fff;font-size:3.5rem;text-shadow:0 4px 16px rgba(0,0,0,0.5)">Adventures</h1></div>
+</div>
+
+<section id="adventures">
+  <h2 class="section-title" data-aos="fade-up">Adventure Activities in Udaipur</h2>
+  <p class="section-intro-adv" data-aos="fade-up" data-aos-delay="100">
+    Get ready for the adventure of a lifetime! Udaipur isn't just a royal destination — it's a playground for thrill-seekers. From hot air balloon rides to heart-pumping treks in the Aravalli Hills, there's something for every adventurer.
+  </p>
+  <div class="adventure-grid">
+
+    <div class="adventure-card" data-aos="zoom-in" data-aos-duration="1000">
+      <img src="https://images.unsplash.com/photo-1578269174936-2709b6aeb913?w=400&h=250&fit=crop" alt="Zip Lining"/>
+      <h3>Zip Lining</h3>
+      <a href="booking_details.html" class="book-now-btn">Book Now</a>
+    </div>
+
+    <div class="adventure-card" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="100">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop" alt="Hot Air Balloon"/>
+      <h3>Hot Air Balloon Ride</h3>
+      <a href="booking_details.html" class="book-now-btn">Book Now</a>
+    </div>
+
+    <div class="adventure-card" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="150">
+      <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400&h=250&fit=crop" alt="Boating"/>
+      <h3>Boating at Lake Pichola</h3>
+      <a href="booking_details.html" class="book-now-btn">Book Now</a>
+    </div>
+
+    <div class="adventure-card" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="200">
+      <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&h=250&fit=crop" alt="Trekking"/>
+      <h3>Trekking in Aravalli Hills</h3>
+      <a href="booking_details.html" class="book-now-btn">Book Now</a>
+    </div>
+
+    <div class="adventure-card" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="250">
+      <img src="https://images.unsplash.com/photo-1534177616072-ef7dc120449d?w=400&h=250&fit=crop" alt="Jungle Safari"/>
+      <h3>Jungle Safari</h3>
+      <a href="booking_details.html" class="book-now-btn">Book Now</a>
+    </div>
+
+    <div class="adventure-card" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="300">
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop" alt="Jeep Tour"/>
+      <h3>Open Jeep Drive Tour</h3>
+      <a href="booking_details.html" class="book-now-btn">Book Now</a>
+    </div>
+
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init({ duration: 1000, once: true });</script>
+</body>
+</html>

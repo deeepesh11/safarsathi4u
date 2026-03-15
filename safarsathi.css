@@ -1,0 +1,262 @@
+/* ═══════════════════════════════════════
+   SAFARSATHI — SHARED STYLESHEET
+   ═══════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Open+Sans:wght@300;400;600&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: #fffaf5;
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* ── BACK ARROW ── */
+#backArrow {
+  position: fixed; top: 20px; left: 20px;
+  z-index: 9999;
+  background: rgba(255,255,255,0.15);
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 50%;
+  padding: 10px 14px;
+  font-size: 22px;
+  color: #fff;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: top 0.3s ease, opacity 0.3s ease, background 0.2s;
+}
+#backArrow:hover { background: rgba(255,255,255,0.3); }
+
+/* ── MENU ICON ── */
+.menu-icon {
+  position: fixed; top: 20px; right: 30px;
+  font-size: 32px; cursor: pointer; z-index: 1001;
+  color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  transition: top 0.3s, opacity 0.3s;
+}
+
+/* ── MENU OVERLAY ── */
+.menu-overlay {
+  position: fixed; top: 0; right: -100%;
+  width: 100%; height: 100%;
+  display: flex;
+  transition: right 0.6s cubic-bezier(0.77,0,0.175,1);
+  z-index: 1000;
+}
+.menu-overlay.open { right: 0; }
+
+.menu-left {
+  flex: 1;
+  background-size: cover; background-position: center;
+  background-image: url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800');
+  transition: background-image 0.5s ease;
+}
+
+.menu-right {
+  flex: 1;
+  background-color: #e4e7d4;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  padding-left: 60px;
+  position: relative; overflow-y: auto;
+}
+
+.close-btn {
+  position: absolute; top: 30px; right: 40px;
+  font-size: 32px; cursor: pointer; color: #222;
+  transition: transform 0.2s;
+}
+.close-btn:hover { transform: rotate(90deg); }
+
+.menu-right a.menu-link {
+  font-size: 2.2rem; color: #111;
+  text-decoration: none; margin: 10px 0;
+  transition: all 0.3s ease;
+  font-family: 'Playfair Display', serif;
+  display: flex; align-items: center;
+  position: relative;
+}
+.menu-right a.menu-link.active::after {
+  content: '→'; font-size: 1.4rem; color: #444;
+  margin-left: 12px;
+}
+.menu-right a.menu-link:hover { transform: translateX(10px); color: #555; }
+.menu-right a.menu-link::before {
+  content: ""; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 2px; background: #444;
+  transition: width 0.3s ease;
+}
+.menu-right a.menu-link:hover::before { width: 80%; }
+
+/* Social icons in menu */
+.menu-right .social-icons {
+  margin-top: 40px; display: flex; gap: 20px;
+}
+.menu-right .social-icons a {
+  font-size: 26px; color: #333;
+  text-decoration: none; margin: 0;
+  transition: transform 0.3s, color 0.3s;
+}
+.menu-right .social-icons a:hover { transform: scale(1.3); }
+.menu-right .social-icons a:nth-child(1):hover { color: #E1306C; }
+.menu-right .social-icons a:nth-child(2):hover { color: #3b5998; }
+.menu-right .social-icons a:nth-child(3):hover { color: #25D366; }
+.menu-right .social-icons a:nth-child(4):hover { color: #FF0000; }
+
+.popup {
+  position: absolute; bottom: 30px; left: 60px;
+  background: rgba(0,0,0,0.8); color: #fff;
+  padding: 10px 18px; border-radius: 6px;
+  font-size: 0.95rem; opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease; pointer-events: none;
+}
+.popup.show { opacity: 1; transform: translateY(0); }
+
+/* ── VIDEO HEADER ── */
+.video-header {
+  position: relative; height: 80vh;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background: #003b32;
+}
+.video-header .header-video {
+  position: absolute; top: 50%; left: 50%;
+  min-width: 100%; min-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover; z-index: 0;
+}
+.video-header .overlay {
+  position: relative; z-index: 2;
+  background: rgba(0,0,0,0.45);
+  padding: 24px 50px; border-radius: 10px;
+  text-align: center;
+}
+.video-header .overlay h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem; color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+/* ── SECTION COMMON ── */
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem; text-align: center;
+  color: #1a3c34; margin-bottom: 1.5rem;
+}
+.section-intro {
+  font-size: 1.1rem; max-width: 700px;
+  margin: 0 auto 2.5rem; color: #444;
+  line-height: 1.8; text-align: center;
+}
+
+/* ── CARDS ── */
+.card-row {
+  display: flex; flex-wrap: wrap;
+  justify-content: center; gap: 2rem;
+  padding: 2rem 1rem;
+  max-width: 1200px; margin: 0 auto;
+}
+.card {
+  background: #fff;
+  border: 1px solid #e5d9c8;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 280px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.14); }
+.card img {
+  width: 100%; height: 180px;
+  object-fit: cover; border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.card h2, .card h3 {
+  font-family: 'Playfair Display', serif;
+  color: #1a3c34; margin-bottom: 0.6rem;
+  font-size: 1.25rem;
+}
+.card p { font-size: 0.92rem; color: #555; line-height: 1.7; margin-bottom: 0.8rem; }
+.card ul { padding-left: 1.2rem; margin-bottom: 1rem; }
+.card ul li { font-size: 0.88rem; color: #555; line-height: 1.8; }
+
+/* ── WHATSAPP BUTTON ── */
+.whatsapp-btn {
+  display: inline-block;
+  background: #25d366; color: #fff;
+  padding: 9px 20px; border-radius: 50px;
+  text-decoration: none; font-weight: 600;
+  font-size: 0.88rem; margin-top: 0.5rem;
+  transition: background 0.2s, transform 0.2s;
+}
+.whatsapp-btn:hover { background: #1ebe5d; transform: scale(1.05); }
+
+/* ── FOOTER ── */
+.footer {
+  background: #1a1a1a; color: #ccc;
+  padding: 50px 20px 20px;
+}
+.footer-container {
+  display: flex; flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px; margin: 0 auto;
+  gap: 1rem;
+}
+.footer-column { flex: 1 1 220px; margin: 15px; }
+.footer-column h3 { color: #fff; margin-bottom: 12px; font-size: 1.1rem; }
+.footer-column p, .footer-column a {
+  font-size: 0.9rem; color: #f3e5b8;
+  text-decoration: none; line-height: 2;
+  display: block;
+}
+.footer-column a:hover { color: #00c6ff; }
+.footer-column ul { list-style: none; padding: 0; }
+.footer-column ul li { margin-bottom: 6px; }
+.footer-bottom {
+  text-align: center; margin-top: 20px;
+  padding-top: 20px; border-top: 1px solid #333;
+  font-size: 0.85rem; color: #888;
+}
+.footer .social-icons { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; }
+.footer .social-icons a { font-size: 22px; color: #aaa; transition: color 0.3s, transform 0.2s; }
+.footer .social-icons a:hover { transform: scale(1.2); }
+.footer .social-icons a:nth-child(1):hover { color: #E1306C; }
+.footer .social-icons a:nth-child(2):hover { color: #3b5998; }
+.footer .social-icons a:nth-child(3):hover { color: #25D366; }
+.footer .social-icons a:nth-child(4):hover { color: #FF0000; }
+
+/* ── MENU ANIMATIONS ── */
+.menu-overlay.open .menu-right a.menu-link {
+  animation: menuFadeUp 0.5s ease forwards;
+  opacity: 0;
+}
+.menu-overlay.open .menu-right a.menu-link:nth-child(2) { animation-delay: 0.05s; }
+.menu-overlay.open .menu-right a.menu-link:nth-child(3) { animation-delay: 0.1s; }
+.menu-overlay.open .menu-right a.menu-link:nth-child(4) { animation-delay: 0.15s; }
+.menu-overlay.open .menu-right a.menu-link:nth-child(5) { animation-delay: 0.2s; }
+.menu-overlay.open .menu-right a.menu-link:nth-child(6) { animation-delay: 0.25s; }
+
+@keyframes menuFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .menu-left { display: none; }
+  .menu-right { padding-left: 30px; }
+  .menu-right a.menu-link { font-size: 1.7rem; }
+  .video-header .overlay h1 { font-size: 2.2rem; }
+  .card-row { gap: 1.2rem; }
+  .card { width: 90%; max-width: 360px; }
+  .footer-container { flex-direction: column; }
+}
+@media (max-width: 480px) {
+  .menu-right a.menu-link { font-size: 1.4rem; }
+  .section-title { font-size: 1.8rem; }
+}

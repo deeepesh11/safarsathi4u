@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Services — SafarSathi4U</title>
+  <link rel="stylesheet" href="safarsathi.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+  <style>
+    .services-hero {
+      height: 60vh; background: linear-gradient(135deg,#004d40,#006652);
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .services-hero::before {
+      content:''; position:absolute; inset:0;
+      background: url('https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?w=1200') center/cover no-repeat;
+      opacity: 0.3;
+    }
+    .services-hero h1 {
+      font-family:'Playfair Display',serif; font-size:3.5rem; color:#fff;
+      text-shadow:0 4px 20px rgba(0,0,0,0.5); position:relative; z-index:1;
+    }
+    #services {
+      padding: 5rem 2rem;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400') center/cover fixed;
+      position: relative;
+    }
+    #services::before {
+      content:''; position:absolute; inset:0; background: rgba(0,0,0,0.6); z-index:0;
+    }
+    #services > * { position: relative; z-index: 1; }
+    #services .section-title { color: #fff; }
+    .cards-container {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .service-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 14px; padding: 2rem;
+      width: 280px; text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .service-card:hover { transform: translateY(-10px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+    .service-card::before {
+      content:''; display:block; height:90px; margin-bottom:1rem;
+      background-size:contain; background-repeat:no-repeat; background-position:center;
+    }
+    .service-card:nth-child(1)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/3176/3176364.png'); }
+    .service-card:nth-child(2)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/854/854878.png'); }
+    .service-card:nth-child(3)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/535/535239.png'); }
+    .service-card:nth-child(4)::before { background-image: url('https://cdn-icons-png.flaticon.com/512/2913/2913465.png'); }
+    .service-card h3 { color: #004d4d; font-size: 1.3rem; font-family:'Playfair Display',serif; margin-bottom:0.8rem; }
+    .service-card p  { font-size: 0.92rem; color: #555; line-height:1.7; margin-bottom:1rem; }
+    .service-card ul { text-align:left; padding-left:1.2rem; margin-bottom:1.2rem; }
+    .service-card ul li { font-size:0.88rem; color:#444; line-height:1.9; }
+    .detail-btn {
+      display:inline-block; padding:10px 22px;
+      background:#008080; color:#fff; border:none;
+      border-radius:10px; cursor:pointer; font-size:0.9rem;
+      text-decoration:none; transition: background 0.2s, transform 0.2s;
+    }
+    .detail-btn:hover { background:#006666; transform:scale(1.05); }
+  </style>
+</head>
+<body>
+<button id="backArrow" onclick="history.back()">⮪</button>
+<script src="shared-nav.js"></script>
+
+<div class="services-hero" data-aos="fade-in">
+  <h1>Our Services</h1>
+</div>
+
+<section id="services">
+  <h2 class="section-title" data-aos="fade-up">Everything You Need for the Perfect Journey</h2>
+  <div class="cards-container">
+
+    <div class="service-card" data-aos="zoom-in" data-aos-delay="100">
+      <h3>Hotel Booking</h3>
+      <p>Handpicked hotels with exclusive deals — from budget-friendly stays to premium lakeside resorts.</p>
+      <ul>
+        <li>Affordable & Premium Options</li>
+        <li>Hygiene & Safety Guaranteed</li>
+        <li>Easy Booking & Cancellation</li>
+      </ul>
+      <a href="Hotelbooking.html" class="detail-btn">More Details</a>
+    </div>
+
+    <div class="service-card" data-aos="zoom-in" data-aos-delay="200">
+      <h3>Scooty Rent or Taxi</h3>
+      <p>Explore at your own pace with reliable scooty rentals or comfortable taxis with professional drivers.</p>
+      <ul>
+        <li>Hourly & Daily Rental Available</li>
+        <li>GPS-Enabled Vehicles</li>
+        <li>Doorstep Pickup & Drop</li>
+      </ul>
+      <a href="Scooty Rent or Taxi.html" class="detail-btn">More Details</a>
+    </div>
+
+    <div class="service-card" data-aos="zoom-in" data-aos-delay="300">
+      <h3>Places to Visit</h3>
+      <p>Curated list of must-visit places — nature, heritage, nightlife — guided to the best experiences.</p>
+      <ul>
+        <li>Top Attractions & Hidden Gems</li>
+        <li>Photography Spots & Local Guides</li>
+        <li>Personalised Itineraries</li>
+      </ul>
+      <a href="Places to Visit.html" class="detail-btn">More Details</a>
+    </div>
+
+    <div class="service-card" data-aos="zoom-in" data-aos-delay="400">
+      <h3>Outskirts & Nature Escapes</h3>
+      <p>Serene nature retreats, scenic hill points, and countryside experiences just a short drive away.</p>
+      <ul>
+        <li>Eco-Tourism & Village Tours</li>
+        <li>Adventure & Camping Options</li>
+        <li>Sunset Points & Nature Walks</li>
+      </ul>
+      <a href="Outskirts.html" class="detail-btn">More Details</a>
+    </div>
+
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init({ duration: 1000, once: true });</script>
+</body>
+</html>

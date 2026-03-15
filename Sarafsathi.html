@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SafarSathi4U | Explore Rajasthan</title>
+  <link rel="stylesheet" href="safarsathi.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --forest:  #0b1f18;
+      --teal:    #0d3d2e;
+      --gold:    #c9973a;
+      --gold-lt: #e8b84b;
+      --ivory:   #faf7f0;
+      --sand:    #e8dcc8;
+      --text:    #2c2218;
+      --muted:   #7a6e60;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'DM Sans',sans-serif; background:var(--ivory); color:var(--text); overflow-x:hidden; }
+
+    /* TOP HEADER */
+    .top-header {
+      position:fixed; top:0; left:0; right:0; z-index:900;
+      background:rgba(11,31,24,0.45); backdrop-filter:blur(14px);
+      padding:12px 36px; display:flex; align-items:center;
+      border-bottom:1px solid rgba(201,151,58,0.15);
+      transition:padding 0.4s, background 0.4s;
+    }
+    .top-header.scrolled { padding:8px 36px; background:rgba(11,31,24,0.94); }
+    .top-header .logo-img { height:54px; width:54px; border-radius:50%; object-fit:cover; box-shadow:0 0 0 2px rgba(201,151,58,0.5), 0 0 18px rgba(201,151,58,0.3); transition:height 0.4s, width 0.4s; }
+    .top-header.scrolled .logo-img { height:44px; width:44px; }
+    .top-header .site-name {
+      font-family:'Cormorant Garamond',serif; font-size:1.75rem; font-weight:600;
+      color:var(--gold-lt); margin-left:14px; letter-spacing:0.06em;
+    }
+    .header-tagline {
+      font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase;
+      color:rgba(255,255,255,0.38); margin-left:12px;
+    }
+    @media(max-width:600px){ .header-tagline { display:none; } }
+
+    /* MENU OVERLAY — force hidden until open, prevent bleed-over hero */
+    .menu-overlay {
+      position:fixed !important; top:0 !important; right:-100% !important;
+      width:100% !important; height:100% !important;
+      display:flex !important; z-index:1000 !important;
+      transition:right 0.55s cubic-bezier(0.77,0,0.175,1) !important;
+      visibility:hidden;
+    }
+    .menu-overlay.open {
+      right:0 !important;
+      visibility:visible;
+    }
+    .menu-right {
+      background:#1b3a2d !important;
+    }
+    .menu-right a.menu-link {
+      font-family:'Cormorant Garamond',serif;
+      font-size:2.5rem !important; font-weight:300;
+      color:#f5f0e8; letter-spacing:0.02em;
+      display:block; padding:8px 0;
+      border-bottom:1px solid rgba(255,255,255,0.06);
+      text-decoration:none;
+      transition:color 0.2s, padding-left 0.2s;
+    }
+    .menu-right a.menu-link:hover,
+    .menu-right a.menu-link.active { color:#c9a44a; padding-left:12px; }
+    .menu-right a.menu-link::before { display:none !important; }
+    .menu-right a.menu-link::after  { display:none !important; }
+
+    /* HERO — starts right below navbar, no cut */
+    .hero-header {
+      position:relative; height:100vh; overflow:hidden;
+      display:flex; align-items:center; justify-content:flex-start;
+      padding-top:72px;
+    }
+    .hero-header video {
+      position:absolute; top:0; left:0; right:0; bottom:0;
+      width:100%; height:100%;
+      object-fit:cover; z-index:0;
+    }
+    .hero-bg-fallback {
+      position:absolute; inset:0; z-index:0;
+      background:linear-gradient(160deg,#0b1f18,#0d3d2e 60%,#061410);
+    }
+    .hero-overlay {
+      position:absolute; inset:0; z-index:1;
+      background:
+        linear-gradient(to top, rgba(11,31,24,0.9) 0%, rgba(11,31,24,0.25) 45%, transparent 70%),
+        linear-gradient(to right, rgba(11,31,24,0.7) 0%, rgba(11,31,24,0.1) 65%);
+    }
+    .hero-grain {
+      position:absolute; inset:0; z-index:2; pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size:200px; opacity:0.3;
+    }
+    .hero-content {
+      position:relative; z-index:3;
+      padding:0 8vw; max-width:1100px; width:100%;
+    }
+    .hero-eyebrow {
+      display:inline-flex; align-items:center; gap:12px;
+      font-size:0.7rem; letter-spacing:0.28em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:1.6rem;
+      opacity:0; animation:fadeUp 0.8s 0.3s forwards;
+    }
+    .hero-eyebrow::before { content:''; display:block; width:32px; height:1px; background:var(--gold); }
+    .hero-title-main {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(3.8rem,10vw,8.5rem);
+      font-weight:300; line-height:0.93; color:#fff;
+      opacity:0; animation:fadeUp 0.9s 0.5s forwards;
+    }
+    .hero-title-main em { font-style:italic; color:var(--gold-lt); display:block; }
+    .hero-subtitle {
+      font-size:1rem; color:rgba(255,255,255,0.58); font-weight:300;
+      line-height:1.8; max-width:420px; margin-top:1.8rem;
+      opacity:0; animation:fadeUp 0.9s 0.7s forwards;
+    }
+    .hero-ctas {
+      display:flex; align-items:center; gap:1.4rem; margin-top:2.4rem; flex-wrap:wrap;
+      opacity:0; animation:fadeUp 0.9s 0.9s forwards;
+    }
+    .btn-primary {
+      display:inline-flex; align-items:center; gap:10px;
+      background:linear-gradient(135deg,var(--gold),var(--gold-lt));
+      color:var(--forest); padding:15px 32px;
+      font-family:'DM Sans',sans-serif; font-size:0.8rem; font-weight:600;
+      letter-spacing:0.1em; text-transform:uppercase; text-decoration:none;
+      border-radius:2px; box-shadow:0 8px 32px rgba(201,151,58,0.4);
+      position:relative; overflow:hidden; transition:transform 0.3s,box-shadow 0.3s;
+    }
+    .btn-primary::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);
+      transform:translateX(-100%); animation:shimmer 3s infinite;
+    }
+    .btn-primary:hover { transform:translateY(-3px); box-shadow:0 14px 44px rgba(201,151,58,0.55); }
+    .btn-ghost {
+      display:inline-flex; align-items:center; gap:10px;
+      border:1px solid rgba(255,255,255,0.28); color:rgba(255,255,255,0.78);
+      padding:15px 28px; font-size:0.8rem; font-weight:500;
+      letter-spacing:0.1em; text-transform:uppercase; text-decoration:none;
+      border-radius:2px; transition:border-color 0.3s,color 0.3s;
+    }
+    .btn-ghost:hover { border-color:var(--gold); color:var(--gold-lt); }
+
+    .scroll-indicator {
+      position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
+      z-index:3; text-align:center;
+      opacity:0; animation:fadeUp 1s 1.4s forwards;
+    }
+    .scroll-indicator span {
+      display:block; font-size:0.58rem; letter-spacing:0.22em; text-transform:uppercase;
+      color:rgba(255,255,255,0.35); margin-bottom:10px;
+    }
+    .scroll-mouse {
+      width:20px; height:32px; border:1.5px solid rgba(255,255,255,0.25);
+      border-radius:10px; margin:0 auto; position:relative;
+    }
+    .scroll-mouse::after {
+      content:''; position:absolute; top:5px; left:50%; transform:translateX(-50%);
+      width:3px; height:6px; background:var(--gold); border-radius:2px;
+      animation:scrollDot 2s infinite;
+    }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;} }
+    @keyframes shimmer { to{transform:translateX(200%);} }
+    @keyframes scrollDot { 0%,100%{top:5px;opacity:1;} 70%{top:17px;opacity:0;} }
+
+    /* MARQUEE */
+    .marquee-strip { background:var(--gold); overflow:hidden; white-space:nowrap; padding:10px 0; }
+    .marquee-inner {
+      display:inline-block; animation:marquee 24s linear infinite;
+      font-size:0.7rem; letter-spacing:0.22em; font-weight:600;
+      text-transform:uppercase; color:var(--forest);
+    }
+    .marquee-inner span { margin:0 2.5rem; }
+    .marquee-inner .dot { opacity:0.45; }
+    @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+    /* SECTION HELPERS */
+    .section-label {
+      display:inline-flex; align-items:center; gap:10px;
+      font-size:0.68rem; letter-spacing:0.26em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:1rem;
+    }
+    .section-label::before { content:''; display:block; width:28px; height:1px; background:var(--gold); }
+    .section-heading {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(2rem,4vw,3.2rem); font-weight:400; line-height:1.15; color:var(--forest);
+    }
+    .section-heading em { font-style:italic; color:var(--gold); }
+
+    /* DESTINATIONS */
+    .destinations { padding:7rem 6vw; background:var(--ivory); }
+    .destinations-head { margin-bottom:3.5rem; }
+    .dest-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    .dest-card { position:relative; overflow:hidden; border-radius:4px; aspect-ratio:3/4; text-decoration:none; display:block; }
+    .dest-card img { width:100%; height:100%; object-fit:cover; transition:transform 0.7s cubic-bezier(.25,.46,.45,.94); }
+    .dest-card:hover img { transform:scale(1.08); }
+    .dest-card-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(to top,rgba(11,31,24,0.88) 0%,rgba(11,31,24,0.1) 55%);
+      transition:background 0.4s;
+    }
+    .dest-card:hover .dest-card-overlay { background:linear-gradient(to top,rgba(11,31,24,0.95) 0%,rgba(11,31,24,0.3) 60%); }
+    .dest-card-body { position:absolute; bottom:0; left:0; right:0; padding:1.6rem 1.4rem; }
+    .dest-num { font-size:0.6rem; letter-spacing:0.22em; color:var(--gold); text-transform:uppercase; display:block; margin-bottom:5px; }
+    .dest-name { font-family:'Cormorant Garamond',serif; font-size:1.85rem; font-weight:600; color:#fff; line-height:1; }
+    .dest-desc { font-size:0.78rem; color:rgba(255,255,255,0.6); margin-top:6px; line-height:1.6; max-height:0; overflow:hidden; transition:max-height 0.4s ease; }
+    .dest-card:hover .dest-desc { max-height:60px; }
+    .dest-arrow { display:inline-flex; align-items:center; gap:6px; font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-top:10px; opacity:0; transform:translateX(-8px); transition:opacity 0.4s,transform 0.4s; }
+    .dest-card:hover .dest-arrow { opacity:1; transform:none; }
+    @media(max-width:860px){ .dest-grid { grid-template-columns:repeat(2,1fr); } }
+
+    /* WHAT WE DO */
+    .what-we-do { background:var(--forest); padding:7rem 6vw; position:relative; overflow:hidden; }
+    .what-we-do::before {
+      content:'SAFAR'; position:absolute; right:-2vw; top:50%; transform:translateY(-50%);
+      font-family:'Cormorant Garamond',serif; font-size:clamp(8rem,18vw,18rem); font-weight:700;
+      color:rgba(255,255,255,0.025); pointer-events:none; line-height:1; user-select:none;
+    }
+    .wwd-inner { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; max-width:1100px; margin:0 auto; }
+    .wwd-left .section-heading { color:#fff; }
+    .wwd-left .section-heading em { color:var(--gold-lt); }
+    .wwd-copy { font-size:1rem; color:rgba(255,255,255,0.52); line-height:1.9; margin-top:1.4rem; font-weight:300; }
+    .wwd-cta {
+      display:inline-flex; align-items:center; gap:10px; margin-top:2.2rem;
+      color:var(--gold); font-size:0.78rem; font-weight:600; letter-spacing:0.12em;
+      text-transform:uppercase; text-decoration:none;
+      border-bottom:1px solid rgba(201,151,58,0.3); padding-bottom:4px;
+      transition:gap 0.3s, border-color 0.3s;
+    }
+    .wwd-cta:hover { gap:16px; border-color:var(--gold); }
+    .wwd-right { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+    .wwd-feat {
+      background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07);
+      border-radius:4px; padding:1.8rem 1.4rem;
+      transition:background 0.3s,border-color 0.3s;
+    }
+    .wwd-feat:hover { background:rgba(201,151,58,0.08); border-color:rgba(201,151,58,0.22); }
+    .wwd-feat-icon { font-size:1.4rem; color:var(--gold); margin-bottom:1rem; }
+    .wwd-feat h4 { font-family:'Cormorant Garamond',serif; font-size:1.15rem; color:#fff; margin-bottom:0.5rem; }
+    .wwd-feat p { font-size:0.78rem; color:rgba(255,255,255,0.42); line-height:1.7; }
+    @media(max-width:800px){ .wwd-inner { grid-template-columns:1fr; gap:3rem; } }
+
+    /* STATS */
+    .stats-section { background:var(--sand); padding:5rem 6vw; }
+    .stats-grid {
+      display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+      background:rgba(0,0,0,0.07); border:1px solid rgba(0,0,0,0.07);
+      border-radius:4px; overflow:hidden; max-width:980px; margin:0 auto;
+    }
+    .stat-cell { background:var(--ivory); text-align:center; padding:3rem 1.5rem; transition:background 0.35s; }
+    .stat-cell:hover { background:var(--forest); }
+    .stat-num { font-family:'Cormorant Garamond',serif; font-size:clamp(2.8rem,5vw,4rem); font-weight:600; color:var(--forest); line-height:1; transition:color 0.35s; }
+    .stat-cell:hover .stat-num { color:var(--gold-lt); }
+    .stat-label { font-size:0.7rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-top:0.5rem; transition:color 0.35s; }
+    .stat-cell:hover .stat-label { color:rgba(255,255,255,0.45); }
+    @media(max-width:640px){ .stats-grid { grid-template-columns:repeat(2,1fr); } }
+
+    /* TESTIMONIALS */
+    #testimonials { padding:7rem 6vw; background:var(--ivory); }
+    .test-head { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:3rem; flex-wrap:wrap; gap:1rem; }
+    .test-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem; }
+    .test-card {
+      background:#fff; border:1px solid var(--sand); border-radius:4px; padding:2.2rem;
+      position:relative; transition:box-shadow 0.3s,transform 0.3s,border-color 0.3s;
+    }
+    .test-card:hover { transform:translateY(-6px); box-shadow:0 20px 50px rgba(11,31,24,0.1); border-color:var(--gold); }
+    .test-card::before {
+      content:'\201C'; font-family:'Cormorant Garamond',serif; font-size:5rem; line-height:1;
+      color:var(--gold); opacity:0.18; position:absolute; top:10px; left:18px;
+    }
+    .test-stars { color:var(--gold); font-size:0.75rem; margin-bottom:1rem; }
+    .test-quote { font-size:0.92rem; color:var(--muted); line-height:1.8; font-style:italic; }
+    .test-author { margin-top:1.4rem; display:flex; align-items:center; gap:12px; }
+    .test-avatar {
+      width:38px; height:38px; border-radius:50%; background:var(--sand);
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Cormorant Garamond',serif; font-size:1rem; font-weight:600; color:var(--teal); flex-shrink:0;
+    }
+    .test-name { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600; color:var(--forest); display:block; }
+    .test-loc { font-size:0.7rem; color:var(--muted); letter-spacing:0.07em; }
+    @media(min-width:540px) and (max-width:800px){ .test-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(max-width:539px){ .test-grid { grid-template-columns:1fr; } }
+
+    /* CONTACT BANNER */
+    .contact-banner { background:var(--teal); padding:6rem 6vw; position:relative; overflow:hidden; }
+    .contact-banner::after {
+      content:''; position:absolute; top:-60%; right:-10%;
+      width:520px; height:520px;
+      background:radial-gradient(circle,rgba(201,151,58,0.12),transparent 70%);
+      pointer-events:none;
+    }
+    .banner-inner { max-width:860px; display:flex; align-items:center; justify-content:space-between; gap:2rem; flex-wrap:wrap; }
+    .banner-text .section-label { color:rgba(201,151,58,0.75); }
+    .banner-heading { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,3rem); font-weight:400; color:#fff; line-height:1.25; margin-top:0.6rem; }
+    .banner-heading em { color:var(--gold-lt); font-style:italic; }
+
+    /* FOOTER */
+    .footer { background:var(--forest); padding:5rem 6vw 0; border-top:1px solid rgba(201,151,58,0.12); }
+    .footer-container { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:3rem; max-width:1200px; margin:0 auto; padding-bottom:4rem; }
+    .footer-column h3 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:600; color:#fff; margin-bottom:1.2rem; padding-bottom:0.8rem; border-bottom:1px solid rgba(255,255,255,0.07); }
+    .footer-column p, .footer-column ul { font-size:0.84rem; color:rgba(255,255,255,0.42); line-height:2; }
+    .footer-column ul { list-style:none; }
+    .footer-column ul li a { color:rgba(255,255,255,0.42); text-decoration:none; transition:color 0.2s; }
+    .footer-column ul li a:hover { color:var(--gold); }
+    .footer-column .social-icons { display:flex; gap:10px; margin-top:0.5rem; }
+    .footer-column .social-icons a {
+      width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,0.1);
+      display:flex; align-items:center; justify-content:center;
+      color:rgba(255,255,255,0.45); font-size:0.85rem; text-decoration:none;
+      transition:border-color 0.3s,color 0.3s,background 0.3s;
+    }
+    .footer-column .social-icons a:hover { border-color:var(--gold); color:var(--gold); background:rgba(201,151,58,0.1); }
+    .footer-bottom { border-top:1px solid rgba(255,255,255,0.05); padding:1.4rem 0; text-align:center; font-size:0.73rem; color:rgba(255,255,255,0.22); letter-spacing:0.06em; }
+    @media(max-width:860px){ .footer-container { grid-template-columns:1fr 1fr; } }
+    @media(max-width:520px){ .footer-container { grid-template-columns:1fr; } }
+
+    /* WA FLOAT */
+    .wa-float {
+      position:fixed; bottom:28px; right:28px; z-index:999;
+      width:52px; height:52px; border-radius:50%; background:#25d366;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.5rem; color:#fff; text-decoration:none;
+      box-shadow:0 6px 20px rgba(37,211,102,0.5); transition:transform 0.3s;
+    }
+    .wa-float:hover { transform:scale(1.1); }
+  </style>
+</head>
+<body>
+
+<!-- TOP HEADER -->
+<div class="top-header" id="topHeader">
+  <img src="logo.jpg" alt="SafarSathi4U" class="logo-img"/>
+  <span class="site-name">SafarSathi4U</span>
+  <span class="header-tagline">— Royal Journeys of Rajasthan</span>
+</div>
+
+<!-- MENU ICON -->
+<div class="menu-icon" id="menuIcon" onclick="toggleMenu()">☰</div>
+
+<!-- MENU OVERLAY -->
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-left" id="menuLeft"></div>
+  <div class="menu-right">
+    <div class="close-btn" onclick="toggleMenu()">✕</div>
+    <a href="Sarafsathi.html" class="menu-link active" data-img="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=800">Home</a>
+    <a href="About.html" class="menu-link" data-img="https://images.unsplash.com/photo-1598091383021-15ddea10925d?w=800">About Us</a>
+    <a href="ourservices.html" class="menu-link" data-img="https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?w=800">Services</a>
+    <a href="Packages.html" class="menu-link" data-img="https://images.unsplash.com/photo-1567157577867-05ccb1388e66?w=800">Packages</a>
+    <a href="adventures.html" class="menu-link" data-img="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800">Adventure</a>
+    <a href="booking_details.html" class="menu-link" data-img="https://images.unsplash.com/photo-1548013146-72479768bada?w=800">Contact</a>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/safarsathi4u_?igsh=MXJhamtyOWJsODB1OA==" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.facebook.com/share/1LahXfP9co/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://wa.me/919876543210" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+    <div class="popup" id="popupMsg"></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero-header">
+  <div class="hero-bg-fallback"></div>
+  <video autoplay loop muted playsinline>
+    <source src="front_header_video.mp4" type="video/mp4"/>
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Udaipur &middot; Rajasthan &middot; India</div>
+    <h1 class="hero-title-main">Royal<br><em>Journeys</em><br>Await</h1>
+    <p class="hero-subtitle">Curated travel experiences through the palaces, deserts and soul of Rajasthan — with local expertise and heartfelt hospitality.</p>
+    <div class="hero-ctas">
+      <a href="booking_details.html" class="btn-primary">Book Your Journey <i class="fas fa-arrow-right"></i></a>
+      <a href="Packages.html" class="btn-ghost">View Packages</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-mouse"></div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <span>Udaipur</span><span class="dot">✦</span><span>Jaipur</span><span class="dot">✦</span><span>Jaisalmer</span><span class="dot">✦</span><span>Jodhpur</span><span class="dot">✦</span><span>Kumbhalgarh</span><span class="dot">✦</span><span>Ranakpur</span><span class="dot">✦</span><span>Nathdwara</span><span class="dot">✦</span>
+    <span>Udaipur</span><span class="dot">✦</span><span>Jaipur</span><span class="dot">✦</span><span>Jaisalmer</span><span class="dot">✦</span><span>Jodhpur</span><span class="dot">✦</span><span>Kumbhalgarh</span><span class="dot">✦</span><span>Ranakpur</span><span class="dot">✦</span><span>Nathdwara</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- DESTINATIONS -->
+<section class="destinations" data-aos="fade-up">
+  <div class="destinations-head">
+    <div class="section-label">Destinations</div>
+    <h2 class="section-heading">Explore the <em>Heart</em> of Rajasthan</h2>
+  </div>
+  <div class="dest-grid">
+    <a class="dest-card" href="https://en.wikipedia.org/wiki/Udaipur" target="_blank" data-aos="fade-up" data-aos-delay="0">
+      <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=600&h=800&fit=crop" alt="Udaipur"/>
+      <div class="dest-card-overlay"></div>
+      <div class="dest-card-body">
+        <span class="dest-num">01</span>
+        <div class="dest-name">Udaipur</div>
+        <div class="dest-desc">The City of Lakes — palaces, ghats &amp; sunset views over Pichola.</div>
+        <div class="dest-arrow">Explore <i class="fas fa-arrow-right"></i></div>
+      </div>
+    </a>
+    <a class="dest-card" href="https://en.wikipedia.org/wiki/Jaipur" target="_blank" data-aos="fade-up" data-aos-delay="80">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Hawa_Mahal_2011.jpg/800px-Hawa_Mahal_2011.jpg" alt="Jaipur"/>
+      <div class="dest-card-overlay"></div>
+      <div class="dest-card-body">
+        <span class="dest-num">02</span>
+        <div class="dest-name">Jaipur</div>
+        <div class="dest-desc">The Pink City — Hawa Mahal, Amber Fort &amp; royal bazaars.</div>
+        <div class="dest-arrow">Explore <i class="fas fa-arrow-right"></i></div>
+      </div>
+    </a>
+    <a class="dest-card" href="https://en.wikipedia.org/wiki/Jaisalmer" target="_blank" data-aos="fade-up" data-aos-delay="160">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Patwon_Ki_Haveli_-_Jaisalmer.jpg/800px-Patwon_Ki_Haveli_-_Jaisalmer.jpg" alt="Jaisalmer"/>
+      <div class="dest-card-overlay"></div>
+      <div class="dest-card-body">
+        <span class="dest-num">03</span>
+        <div class="dest-name">Jaisalmer</div>
+        <div class="dest-desc">The Golden City — desert dunes, havelis &amp; starlit nights.</div>
+        <div class="dest-arrow">Explore <i class="fas fa-arrow-right"></i></div>
+      </div>
+    </a>
+    <a class="dest-card" href="https://en.wikipedia.org/wiki/Jodhpur" target="_blank" data-aos="fade-up" data-aos-delay="240">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Umaid_Bhawan_Palace.jpg/800px-Umaid_Bhawan_Palace.jpg" alt="Jodhpur"/>
+      <div class="dest-card-overlay"></div>
+      <div class="dest-card-body">
+        <span class="dest-num">04</span>
+        <div class="dest-name">Jodhpur</div>
+        <div class="dest-desc">The Blue City — Mehrangarh Fort &amp; vibrant painted streets.</div>
+        <div class="dest-arrow">Explore <i class="fas fa-arrow-right"></i></div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- WHAT WE DO -->
+<section class="what-we-do" data-aos="fade-up">
+  <div class="wwd-inner">
+    <div class="wwd-left">
+      <div class="section-label">Our Philosophy</div>
+      <h2 class="section-heading">Crafted with <em>local love</em> &amp; precision</h2>
+      <p class="wwd-copy">SafarSathi4U is more than a travel agency — we are your Rajasthani hosts. Every itinerary is hand-crafted, every guide is local, and every moment is designed to let you feel the soul of this royal land.</p>
+      <a href="About.html" class="wwd-cta">Discover Our Story <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="wwd-right" data-aos="fade-left" data-aos-delay="200">
+      <div class="wwd-feat">
+        <div class="wwd-feat-icon"><i class="fas fa-map-marked-alt"></i></div>
+        <h4>Expert Local Guides</h4>
+        <p>Born-and-raised guides who know every lane, story and hidden gem.</p>
+      </div>
+      <div class="wwd-feat">
+        <div class="wwd-feat-icon"><i class="fas fa-hotel"></i></div>
+        <h4>Heritage Stays</h4>
+        <p>From lake-view palaces to boutique havelis — only the finest.</p>
+      </div>
+      <div class="wwd-feat">
+        <div class="wwd-feat-icon"><i class="fas fa-route"></i></div>
+        <h4>Custom Itineraries</h4>
+        <p>Tailored plans for families, couples &amp; solo explorers.</p>
+      </div>
+      <div class="wwd-feat">
+        <div class="wwd-feat-icon"><i class="fas fa-headset"></i></div>
+        <h4>24/7 Support</h4>
+        <p>We're a WhatsApp message away — any time, any concern.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section" data-aos="fade-up">
+  <div class="stats-grid">
+    <div class="stat-cell"><div class="stat-num">21</div><div class="stat-label">Destinations</div></div>
+    <div class="stat-cell"><div class="stat-num">15+</div><div class="stat-label">Packages</div></div>
+    <div class="stat-cell"><div class="stat-num">50+</div><div class="stat-label">Tours Completed</div></div>
+    <div class="stat-cell"><div class="stat-num">500+</div><div class="stat-label">Happy Travellers</div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" data-aos="fade-up">
+  <div class="test-head">
+    <div>
+      <div class="section-label">Testimonials</div>
+      <h2 class="section-heading">Voices of <em>our travellers</em></h2>
+    </div>
+    <a href="booking_details.html" class="btn-primary" style="flex-shrink:0;margin-bottom:0.5rem">Plan Your Trip</a>
+  </div>
+  <div class="test-grid">
+    <div class="test-card" data-aos="fade-up" data-aos-delay="0">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-quote">"Our Delhi–Agra–Jaipur trip was outstanding. Seamless coordination and great service! SafarSathi4U made our dream vacation a reality."</p>
+      <div class="test-author">
+        <div class="test-avatar">J</div>
+        <div><span class="test-name">John Doe</span><span class="test-loc">Delhi, India</span></div>
+      </div>
+    </div>
+    <div class="test-card" data-aos="fade-up" data-aos-delay="100">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-quote">"Fantastic service and attention to detail. The Udaipur sunset tour was magical. Every moment felt thoughtfully crafted."</p>
+      <div class="test-author">
+        <div class="test-avatar">J</div>
+        <div><span class="test-name">Jane Smith</span><span class="test-loc">Mumbai, India</span></div>
+      </div>
+    </div>
+    <div class="test-card" data-aos="fade-up" data-aos-delay="200">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-quote">"Best travel companion in Rajasthan. They know every hidden gem in Udaipur — the kind of local knowledge you can't find online!"</p>
+      <div class="test-author">
+        <div class="test-avatar">R</div>
+        <div><span class="test-name">Rahul Sharma</span><span class="test-loc">Bengaluru, India</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT BANNER -->
+<div class="contact-banner" data-aos="fade-up">
+  <div class="banner-inner">
+    <div class="banner-text">
+      <div class="section-label" style="color:rgba(201,151,58,0.7)">Get In Touch</div>
+      <h2 class="banner-heading">Ready for your<br><em>Royal Adventure?</em></h2>
+    </div>
+    <a href="booking_details.html" class="btn-primary">Contact Us <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer" data-aos="fade-up">
+  <div class="footer-container">
+    <div class="footer-column">
+      <h3>About SafarSathi4U</h3>
+      <p>SafarSathi4U is your trusted travel companion in Udaipur and beyond. From heritage stays to scenic tours, we craft unforgettable journeys with a local touch.</p>
+    </div>
+    <div class="footer-column">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="Sarafsathi.html">Home</a></li>
+        <li><a href="adventures.html">Adventures</a></li>
+        <li><a href="Packages.html">Packages</a></li>
+        <li><a href="booking_details.html">Booking</a></li>
+        <li><a href="About.html">About Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h3>Contact Us</h3>
+      <p>Email: support@safarsathi4u.com</p>
+      <p>Phone: +91 98765 43210</p>
+      <p>Udaipur, Rajasthan, India</p>
+    </div>
+    <div class="footer-column">
+      <h3>Follow Us</h3>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/safarsathi4u_?igsh=MXJhamtyOWJsODB1OA==" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/share/1LahXfP9co/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://wa.me/919876543210" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 SafarSathi4U. All Rights Reserved. &mdash; Crafted with &#9825; in Udaipur</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/919876543210" target="_blank" class="wa-float"><i class="fab fa-whatsapp"></i></a>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 900, once: true, offset: 60 });
+
+  function toggleMenu() {
+    const overlay = document.getElementById("menuOverlay");
+    const icon = document.getElementById("menuIcon");
+    overlay.classList.toggle("open");
+    icon.textContent = overlay.classList.contains("open") ? "" : "☰";
+  }
+
+  const links = document.querySelectorAll('.menu-link');
+  const leftPanel = document.getElementById('menuLeft');
+  links.forEach(link => {
+    link.addEventListener('mouseenter', () => {
+      const img = link.getAttribute('data-img');
+      if (img) leftPanel.style.backgroundImage = `url('${img}')`;
+    });
+    link.addEventListener('click', e => {
+      const href = link.getAttribute('href');
+      if (!href || href === '#') e.preventDefault();
+    });
+  });
+
+  let lastScroll = 0;
+  const header = document.getElementById("topHeader");
+  const menuIcon = document.getElementById("menuIcon");
+  window.addEventListener("scroll", () => {
+    const cur = window.scrollY;
+    header.classList.toggle("scrolled", cur > 40);
+    menuIcon.style.top = cur > lastScroll && cur > 80 ? "-60px" : "20px";
+    menuIcon.style.opacity = cur > lastScroll && cur > 80 ? "0" : "1";
+    lastScroll = Math.max(cur, 0);
+  });
+</script>
+</body>
+</html>

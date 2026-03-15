@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Travel Packages — SafarSathi4U | Udaipur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="safarsathi.css"/>
+  <style>
+    :root {
+      --ink: #0e1a14; --forest: #1b3a2d; --moss: #2d5a3d;
+      --gold: #c9a44a; --gold-lt: #e8c97a;
+      --cream: #f5f0e8; --parchment: #ede5d4; --warm-white: #faf8f4;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--warm-white); color: var(--ink); overflow-x: hidden; }
+
+    /* HERO */
+    .pkg-hero {
+      position: relative; height: 72vh; min-height: 500px;
+      display: flex; align-items: flex-end; overflow: hidden;
+      background: var(--ink);
+    }
+    .pkg-hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1600') center/cover no-repeat;
+      transform: scale(1.08);
+      animation: heroZoom 12s ease-in-out infinite alternate;
+    }
+    @keyframes heroZoom { from{transform:scale(1.08)} to{transform:scale(1.14)} }
+    .pkg-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(14,26,20,0.95) 0%, rgba(14,26,20,0.4) 55%, rgba(14,26,20,0.2) 100%);
+    }
+    .pkg-hero-content {
+      position: relative; z-index: 2;
+      padding: 0 8vw 60px;
+    }
+    .pkg-hero-label {
+      font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+    }
+    .pkg-hero-label::before { content:''; width:32px; height:1px; background:var(--gold); }
+    .pkg-hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 7vw, 6rem); font-weight: 300;
+      color: var(--cream); line-height: 1;
+      margin-bottom: 16px;
+    }
+    .pkg-hero-title em { font-style: italic; color: var(--gold-lt); }
+    .pkg-hero-sub {
+      font-size: 0.95rem; font-weight: 300;
+      color: rgba(245,240,232,0.6); max-width: 520px; line-height: 1.7;
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--forest);
+      border-bottom: 1px solid rgba(201,164,74,0.15);
+      padding: 0 8vw;
+      display: flex; align-items: center; gap: 0;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+    }
+    .filter-bar::-webkit-scrollbar { display: none; }
+    .filter-btn {
+      padding: 18px 22px; border: none; background: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(245,240,232,0.5);
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .filter-btn:hover { color: rgba(245,240,232,0.85); }
+    .filter-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* SORT + COUNT ROW */
+    .packages-meta {
+      padding: 28px 8vw 0;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .pkg-count {
+      font-size: 0.82rem; color: #7a8a80; font-weight: 400;
+    }
+    .pkg-count span { color: var(--forest); font-weight: 600; }
+    .sort-wrap { display: flex; align-items: center; gap: 10px; }
+    .sort-wrap label { font-size: 0.78rem; color: #7a8a80; letter-spacing: 0.08em; }
+    .sort-select {
+      border: 1px solid var(--parchment); background: var(--cream); color: var(--forest);
+      font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500;
+      padding: 7px 12px; outline: none; cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .sort-select:focus { border-color: var(--gold); }
+
+    /* PACKAGES GRID */
+    .packages-grid {
+      padding: 36px 8vw 80px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 28px;
+    }
+
+    /* PACKAGE CARD */
+    .pkg-card {
+      background: #fff;
+      border: 1px solid rgba(237,229,212,0.8);
+      overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      position: relative;
+      display: flex; flex-direction: column;
+    }
+    .pkg-card:hover { transform: translateY(-8px); box-shadow: 0 24px 56px rgba(14,26,20,0.12); }
+    .pkg-card.hidden { display: none; }
+
+    /* Card Badge */
+    .pkg-badge {
+      position: absolute; top: 16px; left: 16px; z-index: 3;
+      padding: 4px 12px;
+      font-size: 0.63rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+    }
+    .badge-bestseller { background: var(--gold); color: var(--ink); }
+    .badge-popular   { background: var(--forest); color: var(--cream); }
+    .badge-new       { background: #e05c2a; color: #fff; }
+    .badge-premium   { background: var(--ink); color: var(--gold); }
+
+    /* Card Image */
+    .pkg-img-wrap { position: relative; overflow: hidden; height: 220px; flex-shrink: 0; }
+    .pkg-img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .pkg-card:hover .pkg-img { transform: scale(1.07); }
+    .pkg-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(14,26,20,0.55) 0%, transparent 50%);
+    }
+    .pkg-duration-pill {
+      position: absolute; bottom: 14px; right: 14px;
+      background: rgba(14,26,20,0.82); backdrop-filter: blur(6px);
+      color: var(--cream); font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.1em; padding: 5px 12px; border-radius: 20px;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    /* Card Body */
+    .pkg-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+
+    .pkg-meta-row {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+    }
+    .pkg-theme-tag {
+      font-size: 0.63rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--moss); padding: 3px 10px;
+      border: 1px solid rgba(45,90,61,0.3); border-radius: 2px;
+    }
+    .pkg-rating {
+      margin-left: auto; display: flex; align-items: center; gap: 4px;
+      font-size: 0.75rem; font-weight: 600; color: var(--forest);
+    }
+    .pkg-rating i { color: var(--gold); font-size: 0.7rem; }
+
+    .pkg-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem; font-weight: 400; color: var(--forest);
+      line-height: 1.15; margin-bottom: 10px;
+    }
+    .pkg-desc {
+      font-size: 0.84rem; font-weight: 300; color: #666;
+      line-height: 1.65; margin-bottom: 16px;
+    }
+
+    /* Quick Includes */
+    .pkg-includes {
+      display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px;
+    }
+    .pkg-inc-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.7rem; color: #555; font-weight: 400;
+      background: var(--parchment); padding: 4px 10px; border-radius: 2px;
+    }
+    .pkg-inc-chip i { color: var(--moss); font-size: 0.65rem; }
+
+    /* Itinerary accordion */
+    .pkg-itinerary { border-top: 1px solid var(--parchment); padding-top: 14px; margin-bottom: 18px; }
+    .pkg-itin-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; user-select: none; padding: 4px 0;
+    }
+    .pkg-itin-toggle span {
+      font-size: 0.73rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--forest);
+    }
+    .pkg-itin-toggle i { color: var(--gold); font-size: 0.75rem; transition: transform 0.3s; }
+    .pkg-itin-toggle.open i { transform: rotate(180deg); }
+    .pkg-itin-body { display: none; padding-top: 10px; }
+    .pkg-itin-body.open { display: block; }
+    .pkg-day {
+      display: flex; gap: 12px; padding: 8px 0;
+      border-bottom: 1px dashed rgba(237,229,212,0.8);
+    }
+    .pkg-day:last-child { border-bottom: none; }
+    .pkg-day-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem; font-weight: 600; color: var(--gold);
+      min-width: 36px; line-height: 1.4;
+    }
+    .pkg-day-text { font-size: 0.81rem; color: #555; line-height: 1.6; }
+
+    /* Inclusions / Exclusions */
+    .pkg-inc-exc { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+    .inc-col h5, .exc-col h5 {
+      font-size: 0.66rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .inc-col h5 { color: var(--moss); }
+    .exc-col h5 { color: #c0392b; }
+    .inc-col ul, .exc-col ul { list-style: none; }
+    .inc-col ul li, .exc-col ul li {
+      font-size: 0.78rem; color: #555; line-height: 1.7;
+      display: flex; align-items: flex-start; gap: 6px;
+    }
+    .inc-col ul li i { color: var(--moss); font-size: 0.68rem; margin-top: 3px; flex-shrink: 0; }
+    .exc-col ul li i { color: #c0392b; font-size: 0.68rem; margin-top: 3px; flex-shrink: 0; }
+
+    /* Price Row */
+    .pkg-price-row {
+      margin-top: auto; padding-top: 16px;
+      border-top: 1px solid var(--parchment);
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
+    }
+    .pkg-price-block {}
+    .pkg-price-label { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: #999; margin-bottom: 2px; }
+    .pkg-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 400; color: var(--forest); line-height: 1;
+    }
+    .pkg-price sup { font-size: 1rem; vertical-align: super; color: var(--gold); }
+    .pkg-price sub { font-size: 0.8rem; color: #999; font-weight: 300; }
+    .pkg-price-old {
+      font-size: 0.82rem; color: #bbb; text-decoration: line-through; margin-top: 2px;
+    }
+    .pkg-price-save {
+      display: inline-block; background: #eaf7ed; color: #2d7a3f;
+      font-size: 0.66rem; font-weight: 700; padding: 2px 8px; margin-top: 3px;
+    }
+    .pkg-actions { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+    .btn-book {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold); color: var(--ink);
+      font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; padding: 10px 20px;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+    .btn-book:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(201,164,74,0.35); }
+    .btn-whatsapp {
+      display: inline-flex; align-items: center; gap: 7px;
+      color: #25d366; font-size: 0.72rem; font-weight: 600;
+      text-decoration: none; letter-spacing: 0.08em;
+      white-space: nowrap;
+      transition: color 0.2s;
+    }
+    .btn-whatsapp:hover { color: #1aad52; }
+
+    /* COMPARE STRIP */
+    .compare-strip {
+      background: var(--parchment);
+      border-top: 1px solid rgba(201,164,74,0.2);
+      border-bottom: 1px solid rgba(201,164,74,0.2);
+      padding: 16px 8vw;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .compare-strip p { font-size: 0.82rem; color: var(--forest); font-weight: 500; }
+    .compare-strip p span { color: var(--gold); font-weight: 700; }
+
+    /* WHY US BAND */
+    .why-band { padding: 80px 8vw; background: var(--forest); }
+    .why-band .section-label { color: var(--gold-lt); font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase; display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .why-band .section-label::before { content:''; width:32px; height:1px; background:var(--gold-lt); }
+    .why-band h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; color: var(--cream); line-height: 1.15; margin-bottom: 48px; }
+    .why-band h2 em { font-style: italic; color: var(--gold-lt); }
+    .why-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 32px; }
+    .why-item { text-align: center; }
+    .why-icon {
+      width: 56px; height: 56px;
+      border: 1px solid rgba(201,164,74,0.3); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold); font-size: 1.2rem;
+      margin: 0 auto 16px;
+      transition: background 0.3s;
+    }
+    .why-item:hover .why-icon { background: var(--gold); color: var(--forest); }
+    .why-item h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--cream); margin-bottom: 8px; }
+    .why-item p { font-size: 0.82rem; font-weight: 300; color: rgba(245,240,232,0.55); line-height: 1.7; }
+
+    /* FAQ */
+    .faq-section { padding: 80px 8vw; background: var(--warm-white); max-width: 900px; margin: 0 auto; }
+    .faq-section h2 { font-family:'Cormorant Garamond',serif; font-size: clamp(2rem,3.5vw,2.8rem); font-weight: 300; color: var(--forest); margin-bottom: 40px; }
+    .faq-item { border-bottom: 1px solid var(--parchment); }
+    .faq-q {
+      width: 100%; background: none; border: none; text-align: left; cursor: pointer;
+      padding: 20px 0; display: flex; align-items: center; justify-content: space-between;
+      font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500; color: var(--forest);
+      transition: color 0.2s;
+    }
+    .faq-q:hover { color: var(--gold); }
+    .faq-q i { color: var(--gold); font-size: 0.8rem; transition: transform 0.3s; flex-shrink: 0; }
+    .faq-q.open i { transform: rotate(180deg); }
+    .faq-a { display: none; padding-bottom: 18px; font-size: 0.88rem; font-weight: 300; color: #666; line-height: 1.75; }
+    .faq-a.open { display: block; }
+
+    /* CTA BOTTOM */
+    .cta-bottom {
+      padding: 80px 8vw; background: var(--ink); text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-bottom::before {
+      content:''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,164,74,0.08), transparent);
+    }
+    .cta-bottom h2 { font-family:'Cormorant Garamond',serif; font-size: clamp(2rem,4vw,3.2rem); font-weight: 300; color: var(--cream); margin-bottom: 14px; position: relative; z-index: 1; }
+    .cta-bottom h2 em { font-style: italic; color: var(--gold-lt); }
+    .cta-bottom p { font-size: 0.92rem; color: rgba(245,240,232,0.55); max-width: 500px; margin: 0 auto 36px; position: relative; z-index: 1; }
+    .cta-bottom-btns { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; position: relative; z-index: 1; }
+    .btn-outline-cream {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid rgba(245,240,232,0.3); color: rgba(245,240,232,0.75);
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 13px 28px; text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline-cream:hover { border-color: var(--cream); color: var(--cream); }
+
+    /* BACK ARROW */
+    #backArrow {
+      position: fixed; top: 20px; left: 20px; z-index: 800;
+      background: rgba(14,26,20,0.7); color: var(--gold);
+      border: 1px solid rgba(201,164,74,0.3); border-radius: 50%;
+      width: 40px; height: 40px; font-size: 1rem;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, top 0.3s;
+    }
+    #backArrow:hover { background: var(--gold); color: var(--ink); }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    @media (max-width: 900px) {
+      .why-grid { grid-template-columns: repeat(2,1fr); }
+      .pkg-inc-exc { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .packages-grid { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<button id="backArrow" onclick="history.back()"><i class="fas fa-arrow-left"></i></button>
+<script src="shared-nav.js"></script>
+
+<!-- HERO -->
+<div class="pkg-hero">
+  <div class="pkg-hero-bg"></div>
+  <div class="pkg-hero-overlay"></div>
+  <div class="pkg-hero-content">
+    <p class="pkg-hero-label">Handcrafted Journeys</p>
+    <h1 class="pkg-hero-title">Our <em>Travel</em><br>Packages</h1>
+    <p class="pkg-hero-sub">From quick day escapes to royal multi-day experiences — every package is crafted with local love and meticulous care.</p>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-filter="all">All Packages</button>
+  <button class="filter-btn" data-filter="heritage">Heritage</button>
+  <button class="filter-btn" data-filter="adventure">Adventure</button>
+  <button class="filter-btn" data-filter="romantic">Romantic</button>
+  <button class="filter-btn" data-filter="family">Family</button>
+  <button class="filter-btn" data-filter="spiritual">Spiritual</button>
+  <button class="filter-btn" data-filter="outskirts">Outskirts</button>
+  <button class="filter-btn" data-filter="premium">Premium</button>
+</div>
+
+<!-- META ROW -->
+<div class="packages-meta">
+  <p class="pkg-count">Showing <span id="visibleCount">12</span> of <span>12</span> packages</p>
+  <div class="sort-wrap">
+    <label for="sortSelect">Sort by:</label>
+    <select class="sort-select" id="sortSelect">
+      <option value="default">Recommended</option>
+      <option value="price-low">Price: Low to High</option>
+      <option value="price-high">Price: High to Low</option>
+      <option value="duration">Duration</option>
+    </select>
+  </div>
+</div>
+
+<!-- PACKAGES GRID -->
+<div class="packages-grid" id="packagesGrid">
+
+  <!-- 1. Udaipur City Explorer -->
+  <div class="pkg-card reveal" data-category="heritage" data-price="1499" data-duration="1">
+    <span class="pkg-badge badge-bestseller">Bestseller</span>
+    <div class="pkg-img-wrap">
+      <img class="pkg-img" src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=700&h=440&fit=crop" alt="City Explorer"/>
+      <div class="pkg-img-overlay"></div>
+      <div class="pkg-duration-pill"><i class="fas fa-clock"></i> 1 Day</div>
+    </div>
+    <div class="pkg-body">
+      <div class="pkg-meta-row">
+        <span class="pkg-theme-tag">Heritage & Culture</span>
+        <span class="pkg-rating"><i class="fas fa-star"></i> 4.9 <small style="color:#999;font-weight:400">(84)</small></span>
+      </div>
+      <h3 class="pkg-name">Udaipur City Explorer</h3>
+      <p class="pkg-desc">The perfect introduction to Udaipur — palaces, temples, lake views, and authentic Rajasthani flavours in one unforgettable day.</p>
+      <div class="pkg-includes">
+        <span class="pkg-inc-chip"><i class="fas fa-car"></i> Private Car</span>
+        <span class="pkg-inc-chip"><i class="fas fa-utensils"></i> Lunch</span>
+        <span class="pkg-inc-chip"><i class="fas fa-ship"></i> Boat Ride</span>
+        <span class="pkg-inc-chip"><i class="fas fa-user-tie"></i> Guide</span>
+      </div>
+      <div class="pkg-itinerary">
+        <div class="pkg-itin-toggle" onclick="toggleItin(this)">
+          <span>View Itinerary</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="pkg-itin-body">
+          <div class="pkg-day"><div class="pkg-day-num">9 AM</div><div class="pkg-day-text">Hotel pickup · Drive to <strong>City Palace</strong> with guided tour</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">11 AM</div><div class="pkg-day-text"><strong>Jagdish Temple</strong> & Bagore Ki Haveli heritage walk</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">1 PM</div><div class="pkg-day-text">Rajasthani lunch at Natraj Dining Hall</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">3 PM</div><div class="pkg-day-text"><strong>Lake Pichola boat ride</strong> · Jag Mandir view</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">5 PM</div><div class="pkg-day-text"><strong>Sunset at Ambrai Ghat</strong> · Drop back at hotel</div></div>
+        </div>
+      </div>
+      <div class="pkg-inc-exc">
+        <div class="inc-col"><h5>Included</h5><ul>
+          <li><i class="fas fa-check"></i>AC private vehicle</li>
+          <li><i class="fas fa-check"></i>Professional guide</li>
+          <li><i class="fas fa-check"></i>Lunch & water</li>
+          <li><i class="fas fa-check"></i>Boat ride ticket</li>
+        </ul></div>
+        <div class="exc-col"><h5>Excluded</h5><ul>
+          <li><i class="fas fa-times"></i>Palace entry tickets</li>
+          <li><i class="fas fa-times"></i>Personal expenses</li>
+          <li><i class="fas fa-times"></i>Tips & gratuity</li>
+        </ul></div>
+      </div>
+      <div class="pkg-price-row">
+        <div class="pkg-price-block">
+          <div class="pkg-price-label">Per person (twin sharing)</div>
+          <div class="pkg-price"><sup>₹</sup>1,499<sub>/person</sub></div>
+          <div class="pkg-price-old">₹1,999</div>
+          <div class="pkg-price-save">Save ₹500</div>
+        </div>
+        <div class="pkg-actions">
+          <a href="booking_details.html" class="btn-book">Book Now <i class="fas fa-arrow-right"></i></a>
+          <a href="https://wa.me/919876543210?text=City Explorer Package inquiry" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Royal Retreat -->
+  <div class="pkg-card reveal reveal-delay-1" data-category="premium heritage" data-price="7999" data-duration="2">
+    <span class="pkg-badge badge-premium">Premium</span>
+    <div class="pkg-img-wrap">
+      <img class="pkg-img" src="https://images.unsplash.com/photo-1567157577867-05ccb1388e66?w=700&h=440&fit=crop" alt="Royal Retreat"/>
+      <div class="pkg-img-overlay"></div>
+      <div class="pkg-duration-pill"><i class="fas fa-clock"></i> 2 Days · 1 Night</div>
+    </div>
+    <div class="pkg-body">
+      <div class="pkg-meta-row">
+        <span class="pkg-theme-tag">Palace & Fine Dining</span>
+        <span class="pkg-rating"><i class="fas fa-star"></i> 5.0 <small style="color:#999;font-weight:400">(46)</small></span>
+      </div>
+      <h3 class="pkg-name">Royal Retreat</h3>
+      <p class="pkg-desc">Live like royalty — a two-day immersion of heritage havelis, lakeside candlelight dinners, and golden fort sunsets.</p>
+      <div class="pkg-includes">
+        <span class="pkg-inc-chip"><i class="fas fa-hotel"></i> 1N Heritage Stay</span>
+        <span class="pkg-inc-chip"><i class="fas fa-utensils"></i> Meals (BB)</span>
+        <span class="pkg-inc-chip"><i class="fas fa-car"></i> Private Car</span>
+        <span class="pkg-inc-chip"><i class="fas fa-user-tie"></i> Guide</span>
+      </div>
+      <div class="pkg-itinerary">
+        <div class="pkg-itin-toggle" onclick="toggleItin(this)">
+          <span>View Itinerary</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="pkg-itin-body">
+          <div class="pkg-day"><div class="pkg-day-num">Day 1</div><div class="pkg-day-text">City Palace · Bagore Ki Haveli · Evening dinner at <strong>Ambrai Restaurant</strong> (lakeside)</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">Night</div><div class="pkg-day-text">Check-in at a heritage <strong>haveli hotel</strong> in old city</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">Day 2</div><div class="pkg-day-text">Morning aarti · Saheliyon Ki Bari · <strong>Sajjangarh Monsoon Palace</strong> sunset drive</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">Evening</div><div class="pkg-day-text">Cultural Dhol-Nagaada folk show · Drop at hotel</div></div>
+        </div>
+      </div>
+      <div class="pkg-inc-exc">
+        <div class="inc-col"><h5>Included</h5><ul>
+          <li><i class="fas fa-check"></i>Heritage hotel (1 night)</li>
+          <li><i class="fas fa-check"></i>Breakfast + dinner</li>
+          <li><i class="fas fa-check"></i>AC vehicle both days</li>
+          <li><i class="fas fa-check"></i>Folk show entry</li>
+        </ul></div>
+        <div class="exc-col"><h5>Excluded</h5><ul>
+          <li><i class="fas fa-times"></i>Entry tickets</li>
+          <li><i class="fas fa-times"></i>Lunch on both days</li>
+          <li><i class="fas fa-times"></i>Airfare / train</li>
+        </ul></div>
+      </div>
+      <div class="pkg-price-row">
+        <div class="pkg-price-block">
+          <div class="pkg-price-label">Per person (twin sharing)</div>
+          <div class="pkg-price"><sup>₹</sup>7,999<sub>/person</sub></div>
+          <div class="pkg-price-old">₹9,500</div>
+          <div class="pkg-price-save">Save ₹1,501</div>
+        </div>
+        <div class="pkg-actions">
+          <a href="booking_details.html" class="btn-book">Book Now <i class="fas fa-arrow-right"></i></a>
+          <a href="https://wa.me/919876543210?text=Royal Retreat Package inquiry" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Lake Lovers -->
+  <div class="pkg-card reveal reveal-delay-2" data-category="romantic" data-price="4999" data-duration="2">
+    <span class="pkg-badge badge-popular">Popular</span>
+    <div class="pkg-img-wrap">
+      <img class="pkg-img" src="https://images.unsplash.com/photo-1598091383021-15ddea10925d?w=700&h=440&fit=crop" alt="Lake Lovers"/>
+      <div class="pkg-img-overlay"></div>
+      <div class="pkg-duration-pill"><i class="fas fa-clock"></i> 2 Days · 1 Night</div>
+    </div>
+    <div class="pkg-body">
+      <div class="pkg-meta-row">
+        <span class="pkg-theme-tag">Romantic</span>
+        <span class="pkg-rating"><i class="fas fa-star"></i> 4.8 <small style="color:#999;font-weight:400">(62)</small></span>
+      </div>
+      <h3 class="pkg-name">Lake Lover's Tour</h3>
+      <p class="pkg-desc">Crafted for couples — serene lakes, rooftop cafés, a candlelight dinner by the water, and a sunrise boat ride you'll never forget.</p>
+      <div class="pkg-includes">
+        <span class="pkg-inc-chip"><i class="fas fa-hotel"></i> 1N Lake View</span>
+        <span class="pkg-inc-chip"><i class="fas fa-ship"></i> 2 Boat Rides</span>
+        <span class="pkg-inc-chip"><i class="fas fa-heart"></i> Candlelight Dinner</span>
+        <span class="pkg-inc-chip"><i class="fas fa-camera"></i> Photography</span>
+      </div>
+      <div class="pkg-itinerary">
+        <div class="pkg-itin-toggle" onclick="toggleItin(this)">
+          <span>View Itinerary</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="pkg-itin-body">
+          <div class="pkg-day"><div class="pkg-day-num">Day 1</div><div class="pkg-day-text"><strong>Fateh Sagar Lake</strong> walk · Café brunch at Jheel's Ginger Coffee Bar</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">Afternoon</div><div class="pkg-day-text"><strong>Badi Lake</strong> scooty ride · Picnic setup</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">Evening</div><div class="pkg-day-text"><strong>Candlelight dinner</strong> at Ambrai Ghat · Sunset boat ride</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">Day 2</div><div class="pkg-day-text">Sunrise boat ride on <strong>Lake Pichola</strong> · Breakfast at rooftop café · Departure</div></div>
+        </div>
+      </div>
+      <div class="pkg-inc-exc">
+        <div class="inc-col"><h5>Included</h5><ul>
+          <li><i class="fas fa-check"></i>Lake view room (1N)</li>
+          <li><i class="fas fa-check"></i>Candlelight dinner</li>
+          <li><i class="fas fa-check"></i>2 boat rides</li>
+          <li><i class="fas fa-check"></i>Couple photography 1hr</li>
+        </ul></div>
+        <div class="exc-col"><h5>Excluded</h5><ul>
+          <li><i class="fas fa-times"></i>Travel to Udaipur</li>
+          <li><i class="fas fa-times"></i>Lunch Day 1</li>
+          <li><i class="fas fa-times"></i>Entry tickets</li>
+        </ul></div>
+      </div>
+      <div class="pkg-price-row">
+        <div class="pkg-price-block">
+          <div class="pkg-price-label">Per couple</div>
+          <div class="pkg-price"><sup>₹</sup>4,999<sub>/couple</sub></div>
+          <div class="pkg-price-old">₹6,200</div>
+          <div class="pkg-price-save">Save ₹1,201</div>
+        </div>
+        <div class="pkg-actions">
+          <a href="booking_details.html" class="btn-book">Book Now <i class="fas fa-arrow-right"></i></a>
+          <a href="https://wa.me/919876543210?text=Lake Lovers Package inquiry" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Adventure Ride -->
+  <div class="pkg-card reveal" data-category="adventure" data-price="2499" data-duration="1">
+    <span class="pkg-badge badge-new">New</span>
+    <div class="pkg-img-wrap">
+      <img class="pkg-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&h=440&fit=crop" alt="Adventure"/>
+      <div class="pkg-img-overlay"></div>
+      <div class="pkg-duration-pill"><i class="fas fa-clock"></i> 1 Day</div>
+    </div>
+    <div class="pkg-body">
+      <div class="pkg-meta-row">
+        <span class="pkg-theme-tag">Adventure</span>
+        <span class="pkg-rating"><i class="fas fa-star"></i> 4.7 <small style="color:#999;font-weight:400">(38)</small></span>
+      </div>
+      <h3 class="pkg-name">Adventure Ride</h3>
+      <p class="pkg-desc">Rev up on scooties, blaze through Aravalli trails, and cap it off with an open-jeep safari through the wildlife sanctuary.</p>
+      <div class="pkg-includes">
+        <span class="pkg-inc-chip"><i class="fas fa-motorcycle"></i> Scooty</span>
+        <span class="pkg-inc-chip"><i class="fas fa-truck-monster"></i> Open Jeep</span>
+        <span class="pkg-inc-chip"><i class="fas fa-hiking"></i> Trek Guide</span>
+        <span class="pkg-inc-chip"><i class="fas fa-utensils"></i> Dhaba Lunch</span>
+      </div>
+      <div class="pkg-itinerary">
+        <div class="pkg-itin-toggle" onclick="toggleItin(this)">
+          <span>View Itinerary</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="pkg-itin-body">
+          <div class="pkg-day"><div class="pkg-day-num">8 AM</div><div class="pkg-day-text">Scooty pickup · Ride to <strong>Bahubali Hills</strong> via scenic route</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">10 AM</div><div class="pkg-day-text"><strong>Aravalli Hills mini-trek</strong> with certified guide</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">1 PM</div><div class="pkg-day-text">Dhaba lunch · Lassi & dal baati</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">3 PM</div><div class="pkg-day-text"><strong>Open Jeep Safari</strong> — Sajjangarh Wildlife Sanctuary</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">6 PM</div><div class="pkg-day-text">Fateh Sagar chai stall · Drop back</div></div>
+        </div>
+      </div>
+      <div class="pkg-inc-exc">
+        <div class="inc-col"><h5>Included</h5><ul>
+          <li><i class="fas fa-check"></i>Scooty rental (full day)</li>
+          <li><i class="fas fa-check"></i>Open jeep safari</li>
+          <li><i class="fas fa-check"></i>Trek guide & safety gear</li>
+          <li><i class="fas fa-check"></i>Dhaba lunch</li>
+        </ul></div>
+        <div class="exc-col"><h5>Excluded</h5><ul>
+          <li><i class="fas fa-times"></i>Fuel for scooty</li>
+          <li><i class="fas fa-times"></i>Sanctuary entry fees</li>
+          <li><i class="fas fa-times"></i>Personal insurance</li>
+        </ul></div>
+      </div>
+      <div class="pkg-price-row">
+        <div class="pkg-price-block">
+          <div class="pkg-price-label">Per person</div>
+          <div class="pkg-price"><sup>₹</sup>2,499<sub>/person</sub></div>
+          <div class="pkg-price-old">₹3,000</div>
+          <div class="pkg-price-save">Save ₹501</div>
+        </div>
+        <div class="pkg-actions">
+          <a href="booking_details.html" class="btn-book">Book Now <i class="fas fa-arrow-right"></i></a>
+          <a href="https://wa.me/919876543210?text=Adventure Ride Package inquiry" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Spiritual Sojourn -->
+  <div class="pkg-card reveal reveal-delay-1" data-category="spiritual" data-price="1999" data-duration="1">
+    <div class="pkg-img-wrap">
+      <img class="pkg-img" src="https://images.unsplash.com/photo-1548013146-72479768bada?w=700&h=440&fit=crop" alt="Spiritual"/>
+      <div class="pkg-img-overlay"></div>
+      <div class="pkg-duration-pill"><i class="fas fa-clock"></i> 1 Day</div>
+    </div>
+    <div class="pkg-body">
+      <div class="pkg-meta-row">
+        <span class="pkg-theme-tag">Spiritual</span>
+        <span class="pkg-rating"><i class="fas fa-star"></i> 4.9 <small style="color:#999;font-weight:400">(51)</small></span>
+      </div>
+      <h3 class="pkg-name">Spiritual Sojourn</h3>
+      <p class="pkg-desc">A soulful day at Udaipur's most sacred sites — ancient temples, divine aartis, and the quiet peace of Mewar's spiritual heritage.</p>
+      <div class="pkg-includes">
+        <span class="pkg-inc-chip"><i class="fas fa-om"></i> Temple Guide</span>
+        <span class="pkg-inc-chip"><i class="fas fa-car"></i> Private AC Car</span>
+        <span class="pkg-inc-chip"><i class="fas fa-utensils"></i> Satvik Lunch</span>
+        <span class="pkg-inc-chip"><i class="fas fa-pray"></i> Aarti Darshan</span>
+      </div>
+      <div class="pkg-itinerary">
+        <div class="pkg-itin-toggle" onclick="toggleItin(this)">
+          <span>View Itinerary</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="pkg-itin-body">
+          <div class="pkg-day"><div class="pkg-day-num">7 AM</div><div class="pkg-day-text">Morning aarti at <strong>Jagdish Mandir</strong></div></div>
+          <div class="pkg-day"><div class="pkg-day-num">9 AM</div><div class="pkg-day-text"><strong>Neemach Mata Temple</strong> — ropeway or trek</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">12 PM</div><div class="pkg-day-text">Satvik vegetarian lunch at Govinda's</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">2 PM</div><div class="pkg-day-text">Drive to <strong>Eklingji Temple</strong> (22 km) — Shiva's royal shrine</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">5 PM</div><div class="pkg-day-text">Evening aarti at <strong>Jag Mandir Island</strong> · Return</div></div>
+        </div>
+      </div>
+      <div class="pkg-inc-exc">
+        <div class="inc-col"><h5>Included</h5><ul>
+          <li><i class="fas fa-check"></i>AC vehicle full day</li>
+          <li><i class="fas fa-check"></i>Satvik lunch</li>
+          <li><i class="fas fa-check"></i>Spiritual guide</li>
+          <li><i class="fas fa-check"></i>Puja offerings (basic)</li>
+        </ul></div>
+        <div class="exc-col"><h5>Excluded</h5><ul>
+          <li><i class="fas fa-times"></i>Ropeway fees</li>
+          <li><i class="fas fa-times"></i>Donations / prasad</li>
+          <li><i class="fas fa-times"></i>Extra puja</li>
+        </ul></div>
+      </div>
+      <div class="pkg-price-row">
+        <div class="pkg-price-block">
+          <div class="pkg-price-label">Per person</div>
+          <div class="pkg-price"><sup>₹</sup>1,999<sub>/person</sub></div>
+        </div>
+        <div class="pkg-actions">
+          <a href="booking_details.html" class="btn-book">Book Now <i class="fas fa-arrow-right"></i></a>
+          <a href="https://wa.me/919876543210?text=Spiritual Sojourn inquiry" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Outskirts Escape -->
+  <div class="pkg-card reveal reveal-delay-2" data-category="outskirts" data-price="3499" data-duration="1">
+    <span class="pkg-badge badge-popular">Popular</span>
+    <div class="pkg-img-wrap">
+      <img class="pkg-img" src="https://images.unsplash.com/photo-1564507592333-c60657eea523?w=700&h=440&fit=crop" alt="Outskirts"/>
+      <div class="pkg-img-overlay"></div>
+      <div class="pkg-duration-pill"><i class="fas fa-clock"></i> 1 Day</div>
+    </div>
+    <div class="pkg-body">
+      <div class="pkg-meta-row">
+        <span class="pkg-theme-tag">Outskirts & Forts</span>
+        <span class="pkg-rating"><i class="fas fa-star"></i> 4.8 <small style="color:#999;font-weight:400">(73)</small></span>
+      </div>
+      <h3 class="pkg-name">Outskirts Escape</h3>
+      <p class="pkg-desc">Venture beyond Udaipur to the mighty Kumbhalgarh Fort and the marble serenity of Ranakpur Jain Temples — a day of epic scale.</p>
+      <div class="pkg-includes">
+        <span class="pkg-inc-chip"><i class="fas fa-car"></i> Comfortable SUV</span>
+        <span class="pkg-inc-chip"><i class="fas fa-user-tie"></i> Guide</span>
+        <span class="pkg-inc-chip"><i class="fas fa-utensils"></i> Dhaba Lunch</span>
+        <span class="pkg-inc-chip"><i class="fas fa-camera"></i> Photo Stops</span>
+      </div>
+      <div class="pkg-itinerary">
+        <div class="pkg-itin-toggle" onclick="toggleItin(this)">
+          <span>View Itinerary</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="pkg-itin-body">
+          <div class="pkg-day"><div class="pkg-day-num">8 AM</div><div class="pkg-day-text">Hotel pickup · Drive to <strong>Kumbhalgarh Fort</strong> (84 km)</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">10 AM</div><div class="pkg-day-text">Guided walk of the world's second-longest wall</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">1 PM</div><div class="pkg-day-text">Highway dhaba lunch with valley views</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">2:30 PM</div><div class="pkg-day-text"><strong>Ranakpur Jain Temples</strong> — 1,444 pillars, none alike</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">6 PM</div><div class="pkg-day-text">Scenic sunset drive back to Udaipur</div></div>
+        </div>
+      </div>
+      <div class="pkg-inc-exc">
+        <div class="inc-col"><h5>Included</h5><ul>
+          <li><i class="fas fa-check"></i>SUV with driver</li>
+          <li><i class="fas fa-check"></i>Expert guide</li>
+          <li><i class="fas fa-check"></i>Dhaba lunch</li>
+          <li><i class="fas fa-check"></i>Water & snacks</li>
+        </ul></div>
+        <div class="exc-col"><h5>Excluded</h5><ul>
+          <li><i class="fas fa-times"></i>Fort entry tickets (~₹300)</li>
+          <li><i class="fas fa-times"></i>Camera fees</li>
+          <li><i class="fas fa-times"></i>Personal expenses</li>
+        </ul></div>
+      </div>
+      <div class="pkg-price-row">
+        <div class="pkg-price-block">
+          <div class="pkg-price-label">Per person (min 2)</div>
+          <div class="pkg-price"><sup>₹</sup>3,499<sub>/person</sub></div>
+          <div class="pkg-price-old">₹4,200</div>
+          <div class="pkg-price-save">Save ₹701</div>
+        </div>
+        <div class="pkg-actions">
+          <a href="booking_details.html" class="btn-book">Book Now <i class="fas fa-arrow-right"></i></a>
+          <a href="https://wa.me/919876543210?text=Outskirts Escape inquiry" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Family Fiesta -->
+  <div class="pkg-card reveal" data-category="family" data-price="12999" data-duration="3">
+    <span class="pkg-badge badge-bestseller">Family Fav</span>
+    <div class="pkg-img-wrap">
+      <img class="pkg-img" src="https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=700&h=440&fit=crop" alt="Family"/>
+      <div class="pkg-img-overlay"></div>
+      <div class="pkg-duration-pill"><i class="fas fa-clock"></i> 3 Days · 2 Nights</div>
+    </div>
+    <div class="pkg-body">
+      <div class="pkg-meta-row">
+        <span class="pkg-theme-tag">Family</span>
+        <span class="pkg-rating"><i class="fas fa-star"></i> 4.9 <small style="color:#999;font-weight:400">(29)</small></span>
+      </div>
+      <h3 class="pkg-name">Family Fiesta</h3>
+      <p class="pkg-desc">Three days of magic for the whole family — palaces, puppet shows, boat rides, wildlife, and a puppet workshop the kids will love.</p>
+      <div class="pkg-includes">
+        <span class="pkg-inc-chip"><i class="fas fa-hotel"></i> 2N Hotel</span>
+        <span class="pkg-inc-chip"><i class="fas fa-utensils"></i> All Meals</span>
+        <span class="pkg-inc-chip"><i class="fas fa-bus"></i> Family Van</span>
+        <span class="pkg-inc-chip"><i class="fas fa-child"></i> Kids Activities</span>
+      </div>
+      <div class="pkg-itinerary">
+        <div class="pkg-itin-toggle" onclick="toggleItin(this)">
+          <span>View Itinerary</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="pkg-itin-body">
+          <div class="pkg-day"><div class="pkg-day-num">Day 1</div><div class="pkg-day-text">Arrival · City Palace · Shilpgram Puppet Show · Dinner at family restaurant</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">Day 2</div><div class="pkg-day-text">Lake Pichola boat ride · Miniature painting workshop · Sajjangarh Wildlife drive</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">Day 3</div><div class="pkg-day-text">Fateh Sagar stroll · Shopping at Hathipol Bazaar · Departure</div></div>
+        </div>
+      </div>
+      <div class="pkg-inc-exc">
+        <div class="inc-col"><h5>Included</h5><ul>
+          <li><i class="fas fa-check"></i>Hotel 2 nights (family room)</li>
+          <li><i class="fas fa-check"></i>All meals (6 meals)</li>
+          <li><i class="fas fa-check"></i>Innova/family van</li>
+          <li><i class="fas fa-check"></i>Painting workshop</li>
+        </ul></div>
+        <div class="exc-col"><h5>Excluded</h5><ul>
+          <li><i class="fas fa-times"></i>Train/flight tickets</li>
+          <li><i class="fas fa-times"></i>Entry tickets</li>
+          <li><i class="fas fa-times"></i>Shopping</li>
+        </ul></div>
+      </div>
+      <div class="pkg-price-row">
+        <div class="pkg-price-block">
+          <div class="pkg-price-label">Per family (2A + 2C)</div>
+          <div class="pkg-price"><sup>₹</sup>12,999</div>
+          <div class="pkg-price-old">₹16,000</div>
+          <div class="pkg-price-save">Save ₹3,001</div>
+        </div>
+        <div class="pkg-actions">
+          <a href="booking_details.html" class="btn-book">Book Now <i class="fas fa-arrow-right"></i></a>
+          <a href="https://wa.me/919876543210?text=Family Fiesta inquiry" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Rajasthan Grand Tour -->
+  <div class="pkg-card reveal reveal-delay-1" data-category="premium heritage outskirts" data-price="24999" data-duration="5">
+    <span class="pkg-badge badge-premium">Premium</span>
+    <div class="pkg-img-wrap">
+      <img class="pkg-img" src="https://images.unsplash.com/photo-1585135497273-1a86b09fe70e?w=700&h=440&fit=crop" alt="Grand Tour"/>
+      <div class="pkg-img-overlay"></div>
+      <div class="pkg-duration-pill"><i class="fas fa-clock"></i> 5 Days · 4 Nights</div>
+    </div>
+    <div class="pkg-body">
+      <div class="pkg-meta-row">
+        <span class="pkg-theme-tag">Grand Tour</span>
+        <span class="pkg-rating"><i class="fas fa-star"></i> 5.0 <small style="color:#999;font-weight:400">(18)</small></span>
+      </div>
+      <h3 class="pkg-name">Rajasthan Grand Tour</h3>
+      <p class="pkg-desc">The ultimate Rajasthan experience — Udaipur, Jodhpur, and Jaisalmer in five days. Heritage, desert, forts, and folk culture in one grand arc.</p>
+      <div class="pkg-includes">
+        <span class="pkg-inc-chip"><i class="fas fa-hotel"></i> 4N Premium Hotels</span>
+        <span class="pkg-inc-chip"><i class="fas fa-utensils"></i> Breakfast Daily</span>
+        <span class="pkg-inc-chip"><i class="fas fa-car"></i> AC Vehicle</span>
+        <span class="pkg-inc-chip"><i class="fas fa-user-tie"></i> Expert Guide</span>
+      </div>
+      <div class="pkg-itinerary">
+        <div class="pkg-itin-toggle" onclick="toggleItin(this)">
+          <span>View Itinerary</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="pkg-itin-body">
+          <div class="pkg-day"><div class="pkg-day-num">Day 1</div><div class="pkg-day-text"><strong>Udaipur</strong> — City Palace, Pichola boat, lakeside dinner</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">Day 2</div><div class="pkg-day-text">Udaipur — Kumbhalgarh Fort + Ranakpur Temples day trip</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">Day 3</div><div class="pkg-day-text"><strong>Jodhpur</strong> — Mehrangarh Fort, Jaswant Thada, blue city lanes</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">Day 4</div><div class="pkg-day-text"><strong>Jaisalmer</strong> — Desert Fort, Patwon ki Haveli, camel sunset</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">Day 5</div><div class="pkg-day-text">Desert safari morning · Fly back from Jaisalmer or Jodhpur</div></div>
+        </div>
+      </div>
+      <div class="pkg-inc-exc">
+        <div class="inc-col"><h5>Included</h5><ul>
+          <li><i class="fas fa-check"></i>4N premium hotels</li>
+          <li><i class="fas fa-check"></i>Daily breakfast</li>
+          <li><i class="fas fa-check"></i>AC vehicle + driver</li>
+          <li><i class="fas fa-check"></i>Certified expert guide</li>
+        </ul></div>
+        <div class="exc-col"><h5>Excluded</h5><ul>
+          <li><i class="fas fa-times"></i>Flights / train</li>
+          <li><i class="fas fa-times"></i>Lunch & dinner</li>
+          <li><i class="fas fa-times"></i>Entry tickets</li>
+        </ul></div>
+      </div>
+      <div class="pkg-price-row">
+        <div class="pkg-price-block">
+          <div class="pkg-price-label">Per person (twin sharing)</div>
+          <div class="pkg-price"><sup>₹</sup>24,999<sub>/person</sub></div>
+          <div class="pkg-price-old">₹30,000</div>
+          <div class="pkg-price-save">Save ₹5,001</div>
+        </div>
+        <div class="pkg-actions">
+          <a href="booking_details.html" class="btn-book">Book Now <i class="fas fa-arrow-right"></i></a>
+          <a href="https://wa.me/919876543210?text=Rajasthan Grand Tour inquiry" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. Sunset Bliss -->
+  <div class="pkg-card reveal reveal-delay-2" data-category="romantic heritage" data-price="999" data-duration="1">
+    <div class="pkg-img-wrap">
+      <img class="pkg-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&h=440&fit=crop" alt="Sunset"/>
+      <div class="pkg-img-overlay"></div>
+      <div class="pkg-duration-pill"><i class="fas fa-clock"></i> Half Day</div>
+    </div>
+    <div class="pkg-body">
+      <div class="pkg-meta-row">
+        <span class="pkg-theme-tag">Sunset Special</span>
+        <span class="pkg-rating"><i class="fas fa-star"></i> 4.8 <small style="color:#999;font-weight:400">(97)</small></span>
+      </div>
+      <h3 class="pkg-name">Sunset Bliss</h3>
+      <p class="pkg-desc">Three of Udaipur's most spectacular sunset spots in one golden evening — a half-day escape that ends with lights on the lake.</p>
+      <div class="pkg-includes">
+        <span class="pkg-inc-chip"><i class="fas fa-car"></i> Car</span>
+        <span class="pkg-inc-chip"><i class="fas fa-coffee"></i> Rooftop Tea</span>
+        <span class="pkg-inc-chip"><i class="fas fa-camera"></i> Photo Spots</span>
+      </div>
+      <div class="pkg-itinerary">
+        <div class="pkg-itin-toggle" onclick="toggleItin(this)">
+          <span>View Itinerary</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="pkg-itin-body">
+          <div class="pkg-day"><div class="pkg-day-num">3 PM</div><div class="pkg-day-text"><strong>Sajjangarh Monsoon Palace</strong> — panoramic hilltop view</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">5 PM</div><div class="pkg-day-text"><strong>Ambrai Ghat</strong> — City Palace reflections in golden hour</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">6 PM</div><div class="pkg-day-text">Rooftop café tea · <strong>Lake Pichola</strong> evening lights</div></div>
+        </div>
+      </div>
+      <div class="pkg-inc-exc">
+        <div class="inc-col"><h5>Included</h5><ul>
+          <li><i class="fas fa-check"></i>AC vehicle</li>
+          <li><i class="fas fa-check"></i>Rooftop tea/snack</li>
+          <li><i class="fas fa-check"></i>Photography guide</li>
+        </ul></div>
+        <div class="exc-col"><h5>Excluded</h5><ul>
+          <li><i class="fas fa-times"></i>Palace entry</li>
+          <li><i class="fas fa-times"></i>Dinner</li>
+        </ul></div>
+      </div>
+      <div class="pkg-price-row">
+        <div class="pkg-price-block">
+          <div class="pkg-price-label">Per person</div>
+          <div class="pkg-price"><sup>₹</sup>999<sub>/person</sub></div>
+        </div>
+        <div class="pkg-actions">
+          <a href="booking_details.html" class="btn-book">Book Now <i class="fas fa-arrow-right"></i></a>
+          <a href="https://wa.me/919876543210?text=Sunset Bliss inquiry" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Hot Air Balloon + City -->
+  <div class="pkg-card reveal" data-category="adventure premium" data-price="8999" data-duration="1">
+    <span class="pkg-badge badge-new">New</span>
+    <div class="pkg-img-wrap">
+      <img class="pkg-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&h=440&fit=crop" alt="Balloon"/>
+      <div class="pkg-img-overlay"></div>
+      <div class="pkg-duration-pill"><i class="fas fa-clock"></i> Full Day</div>
+    </div>
+    <div class="pkg-body">
+      <div class="pkg-meta-row">
+        <span class="pkg-theme-tag">Sky Adventure</span>
+        <span class="pkg-rating"><i class="fas fa-star"></i> 5.0 <small style="color:#999;font-weight:400">(22)</small></span>
+      </div>
+      <h3 class="pkg-name">Sky High Udaipur</h3>
+      <p class="pkg-desc">See Udaipur from above — a sunrise hot air balloon over the lakes and palaces, followed by a guided city tour on the ground.</p>
+      <div class="pkg-includes">
+        <span class="pkg-inc-chip"><i class="fas fa-hot-tub"></i> Balloon Flight</span>
+        <span class="pkg-inc-chip"><i class="fas fa-coffee"></i> Champagne Brunch</span>
+        <span class="pkg-inc-chip"><i class="fas fa-certificate"></i> Flight Certificate</span>
+        <span class="pkg-inc-chip"><i class="fas fa-car"></i> City Tour</span>
+      </div>
+      <div class="pkg-itinerary">
+        <div class="pkg-itin-toggle" onclick="toggleItin(this)">
+          <span>View Itinerary</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="pkg-itin-body">
+          <div class="pkg-day"><div class="pkg-day-num">5:30 AM</div><div class="pkg-day-text">Pickup · Drive to launch site</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">6 AM</div><div class="pkg-day-text"><strong>Hot Air Balloon flight</strong> — 45–60 mins over lakes & palaces</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">8 AM</div><div class="pkg-day-text">Champagne/juice brunch · Flight certificate</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">10 AM</div><div class="pkg-day-text">City Palace guided tour + Bagore Ki Haveli</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">1 PM</div><div class="pkg-day-text">Lunch at rooftop restaurant · Drop back</div></div>
+        </div>
+      </div>
+      <div class="pkg-inc-exc">
+        <div class="inc-col"><h5>Included</h5><ul>
+          <li><i class="fas fa-check"></i>Balloon flight (1 hr)</li>
+          <li><i class="fas fa-check"></i>Brunch post-flight</li>
+          <li><i class="fas fa-check"></i>Certificate & photos</li>
+          <li><i class="fas fa-check"></i>City tour + lunch</li>
+        </ul></div>
+        <div class="exc-col"><h5>Excluded</h5><ul>
+          <li><i class="fas fa-times"></i>Personal insurance</li>
+          <li><i class="fas fa-times"></i>Entry tickets</li>
+          <li><i class="fas fa-times"></i>Subject to weather</li>
+        </ul></div>
+      </div>
+      <div class="pkg-price-row">
+        <div class="pkg-price-block">
+          <div class="pkg-price-label">Per person</div>
+          <div class="pkg-price"><sup>₹</sup>8,999<sub>/person</sub></div>
+          <div class="pkg-price-old">₹11,000</div>
+          <div class="pkg-price-save">Save ₹2,001</div>
+        </div>
+        <div class="pkg-actions">
+          <a href="booking_details.html" class="btn-book">Book Now <i class="fas fa-arrow-right"></i></a>
+          <a href="https://wa.me/919876543210?text=Sky High Udaipur inquiry" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. Wellness & Yoga -->
+  <div class="pkg-card reveal reveal-delay-1" data-category="spiritual romantic" data-price="5499" data-duration="2">
+    <div class="pkg-img-wrap">
+      <img class="pkg-img" src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=700&h=440&fit=crop" alt="Wellness"/>
+      <div class="pkg-img-overlay"></div>
+      <div class="pkg-duration-pill"><i class="fas fa-clock"></i> 2 Days · 1 Night</div>
+    </div>
+    <div class="pkg-body">
+      <div class="pkg-meta-row">
+        <span class="pkg-theme-tag">Wellness & Yoga</span>
+        <span class="pkg-rating"><i class="fas fa-star"></i> 4.9 <small style="color:#999;font-weight:400">(34)</small></span>
+      </div>
+      <h3 class="pkg-name">Wellness Retreat</h3>
+      <p class="pkg-desc">Reconnect with yourself in the City of Lakes — sunrise yoga, Ayurvedic massage, organic meals, and meditative lake walks.</p>
+      <div class="pkg-includes">
+        <span class="pkg-inc-chip"><i class="fas fa-spa"></i> Yoga Sessions</span>
+        <span class="pkg-inc-chip"><i class="fas fa-leaf"></i> Ayurvedic Massage</span>
+        <span class="pkg-inc-chip"><i class="fas fa-hotel"></i> Wellness Stay</span>
+        <span class="pkg-inc-chip"><i class="fas fa-apple-alt"></i> Organic Meals</span>
+      </div>
+      <div class="pkg-itinerary">
+        <div class="pkg-itin-toggle" onclick="toggleItin(this)">
+          <span>View Itinerary</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="pkg-itin-body">
+          <div class="pkg-day"><div class="pkg-day-num">Day 1</div><div class="pkg-day-text">Check-in · Afternoon yoga · Organic dinner · Sound healing session</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">Day 2</div><div class="pkg-day-text">Sunrise yoga at <strong>Fateh Sagar</strong> · Ayurvedic massage · Organic breakfast · Check-out</div></div>
+        </div>
+      </div>
+      <div class="pkg-inc-exc">
+        <div class="inc-col"><h5>Included</h5><ul>
+          <li><i class="fas fa-check"></i>Wellness hotel (1N)</li>
+          <li><i class="fas fa-check"></i>2 yoga sessions</li>
+          <li><i class="fas fa-check"></i>Ayurvedic massage (60 min)</li>
+          <li><i class="fas fa-check"></i>All organic meals</li>
+        </ul></div>
+        <div class="exc-col"><h5>Excluded</h5><ul>
+          <li><i class="fas fa-times"></i>Travel to Udaipur</li>
+          <li><i class="fas fa-times"></i>Extra spa treatments</li>
+        </ul></div>
+      </div>
+      <div class="pkg-price-row">
+        <div class="pkg-price-block">
+          <div class="pkg-price-label">Per person</div>
+          <div class="pkg-price"><sup>₹</sup>5,499<sub>/person</sub></div>
+          <div class="pkg-price-old">₹6,800</div>
+          <div class="pkg-price-save">Save ₹1,301</div>
+        </div>
+        <div class="pkg-actions">
+          <a href="booking_details.html" class="btn-book">Book Now <i class="fas fa-arrow-right"></i></a>
+          <a href="https://wa.me/919876543210?text=Wellness Retreat inquiry" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. Instagram Trail -->
+  <div class="pkg-card reveal reveal-delay-2" data-category="heritage romantic" data-price="1799" data-duration="1">
+    <span class="pkg-badge badge-new">Trending</span>
+    <div class="pkg-img-wrap">
+      <img class="pkg-img" src="https://images.unsplash.com/photo-1553913861-c0fddf2619ee?w=700&h=440&fit=crop" alt="Instagram"/>
+      <div class="pkg-img-overlay"></div>
+      <div class="pkg-duration-pill"><i class="fas fa-clock"></i> 1 Day</div>
+    </div>
+    <div class="pkg-body">
+      <div class="pkg-meta-row">
+        <span class="pkg-theme-tag">Photography</span>
+        <span class="pkg-rating"><i class="fas fa-star"></i> 4.7 <small style="color:#999;font-weight:400">(56)</small></span>
+      </div>
+      <h3 class="pkg-name">Instagram Trail</h3>
+      <p class="pkg-desc">Hit Udaipur's most photogenic spots with a photography guide — from blue-walled lanes to palace reflections and rooftop golden hour frames.</p>
+      <div class="pkg-includes">
+        <span class="pkg-inc-chip"><i class="fas fa-camera"></i> Photo Guide</span>
+        <span class="pkg-inc-chip"><i class="fas fa-car"></i> Transport</span>
+        <span class="pkg-inc-chip"><i class="fas fa-coffee"></i> Café Brunch</span>
+        <span class="pkg-inc-chip"><i class="fas fa-images"></i> Edited Photos</span>
+      </div>
+      <div class="pkg-itinerary">
+        <div class="pkg-itin-toggle" onclick="toggleItin(this)">
+          <span>View Itinerary</span><i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="pkg-itin-body">
+          <div class="pkg-day"><div class="pkg-day-num">8 AM</div><div class="pkg-day-text"><strong>City Palace gates</strong> — morning light shoot</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">10 AM</div><div class="pkg-day-text"><strong>Old city blue lanes</strong> near Gangaur Ghat</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">12 PM</div><div class="pkg-day-text">Rooftop café brunch with lake view</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">2 PM</div><div class="pkg-day-text"><strong>Vintage Rajasthani outfit</strong> shoot at heritage haveli</div></div>
+          <div class="pkg-day"><div class="pkg-day-num">5 PM</div><div class="pkg-day-text"><strong>Ambrai Ghat</strong> golden hour · 20 edited photos delivered</div></div>
+        </div>
+      </div>
+      <div class="pkg-inc-exc">
+        <div class="inc-col"><h5>Included</h5><ul>
+          <li><i class="fas fa-check"></i>Photography guide</li>
+          <li><i class="fas fa-check"></i>20 edited photos</li>
+          <li><i class="fas fa-check"></i>Rajasthani outfit rental</li>
+          <li><i class="fas fa-check"></i>Café brunch</li>
+        </ul></div>
+        <div class="exc-col"><h5>Excluded</h5><ul>
+          <li><i class="fas fa-times"></i>Palace entry tickets</li>
+          <li><i class="fas fa-times"></i>Lunch/dinner</li>
+          <li><i class="fas fa-times"></i>Video shoots</li>
+        </ul></div>
+      </div>
+      <div class="pkg-price-row">
+        <div class="pkg-price-block">
+          <div class="pkg-price-label">Per person</div>
+          <div class="pkg-price"><sup>₹</sup>1,799<sub>/person</sub></div>
+        </div>
+        <div class="pkg-actions">
+          <a href="booking_details.html" class="btn-book">Book Now <i class="fas fa-arrow-right"></i></a>
+          <a href="https://wa.me/919876543210?text=Instagram Trail inquiry" target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /packages-grid -->
+
+<!-- WHY SAFARSATHI -->
+<div class="why-band reveal">
+  <p class="section-label">Why Choose Us</p>
+  <h2>Travel Confidently with<br><em>SafarSathi4U</em></h2>
+  <div class="why-grid">
+    <div class="why-item">
+      <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+      <h4>Trusted & Safe</h4>
+      <p>All guides are licensed, vehicles insured, and safety protocols strictly followed.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon"><i class="fas fa-tags"></i></div>
+      <h4>Best Price Guarantee</h4>
+      <p>Find the same package cheaper elsewhere — we'll match it, no questions asked.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon"><i class="fas fa-clock"></i></div>
+      <h4>Flexible Booking</h4>
+      <p>Free cancellation up to 48 hours before. Date changes always accommodated.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon"><i class="fas fa-headset"></i></div>
+      <h4>24/7 Support</h4>
+      <p>We're with you from the first inquiry to the last drop-off. Always reachable on WhatsApp.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section reveal" style="padding: 80px 8vw; max-width: 100%;">
+  <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,2.8rem);font-weight:300;color:var(--forest);margin-bottom:40px;">Frequently Asked <em style="font-style:italic;">Questions</em></h2>
+
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)">Can packages be customized? <i class="fas fa-chevron-down"></i></button>
+    <div class="faq-a">Absolutely! Every package is a starting point. Tell us your group size, budget, dietary needs, and special requests — we'll build it exactly the way you want. Just WhatsApp us.</div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)">What is the cancellation policy? <i class="fas fa-chevron-down"></i></button>
+    <div class="faq-a">Free cancellation up to 48 hours before the trip. 50% refund for cancellations 24–48 hours before. No refund within 24 hours. All refunds are processed within 5–7 working days.</div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)">Are entry tickets included in the price? <i class="fas fa-chevron-down"></i></button>
+    <div class="faq-a">Entry tickets to monuments are generally not included (as listed under "Excluded"). This keeps pricing transparent — you pay for only what you enter. We'll tell you the exact entry fees in advance.</div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)">How do I pay & confirm my booking? <i class="fas fa-chevron-down"></i></button>
+    <div class="faq-a">Pay 30% advance via UPI/bank transfer to confirm. Remaining 70% on the day of the tour. We accept Google Pay, PhonePe, NEFT, and cash. Confirmation is sent on WhatsApp within 30 minutes.</div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)">Do you provide pickup from hotels & railway station? <i class="fas fa-chevron-down"></i></button>
+    <div class="faq-a">Yes — complimentary hotel and railway station pickup is included in most packages. Airport pickup available for an additional charge of ₹300–500 depending on the vehicle type.</div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)">What's the minimum group size? <i class="fas fa-chevron-down"></i></button>
+    <div class="faq-a">Most packages operate from 1 person. A few outskirts packages require a minimum of 2. Solo travellers are always welcome and pricing is listed per person.</div>
+  </div>
+</div>
+
+<!-- CTA BOTTOM -->
+<div class="cta-bottom reveal">
+  <h2>Can't Find the Right Package?<br>We'll <em>Build It for You.</em></h2>
+  <p>Tell us your dates, group size, and dream experiences — we'll design a custom itinerary just for you within 2 hours.</p>
+  <div class="cta-bottom-btns">
+    <a href="https://wa.me/919876543210?text=I need a custom package for Udaipur" target="_blank" class="btn-book" style="font-size:0.8rem;">
+      <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+    </a>
+    <a href="booking_details.html" class="btn-outline-cream">
+      Fill Booking Form <i class="fas fa-arrow-right" style="font-size:0.7rem;"></i>
+    </a>
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+
+<script>
+  // Itinerary toggle
+  function toggleItin(el) {
+    el.classList.toggle('open');
+    el.nextElementSibling.classList.toggle('open');
+  }
+
+  // FAQ toggle
+  function toggleFaq(el) {
+    const allQ = document.querySelectorAll('.faq-q');
+    const allA = document.querySelectorAll('.faq-a');
+    allQ.forEach((q, i) => {
+      if (q !== el) { q.classList.remove('open'); allA[i].classList.remove('open'); }
+    });
+    el.classList.toggle('open');
+    el.nextElementSibling.classList.toggle('open');
+  }
+
+  // Filter
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.pkg-card');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      let visible = 0;
+      cards.forEach(card => {
+        const cats = card.dataset.category || '';
+        if (filter === 'all' || cats.includes(filter)) {
+          card.classList.remove('hidden'); visible++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      document.getElementById('visibleCount').textContent = visible;
+    });
+  });
+
+  // Sort
+  document.getElementById('sortSelect').addEventListener('change', function() {
+    const grid = document.getElementById('packagesGrid');
+    const cardsArr = Array.from(cards);
+    cardsArr.sort((a, b) => {
+      if (this.value === 'price-low') return parseInt(a.dataset.price) - parseInt(b.dataset.price);
+      if (this.value === 'price-high') return parseInt(b.dataset.price) - parseInt(a.dataset.price);
+      if (this.value === 'duration') return parseInt(a.dataset.duration) - parseInt(b.dataset.duration);
+      return 0;
+    });
+    cardsArr.forEach(c => grid.appendChild(c));
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Back arrow hide on scroll down
+  let lastScroll = 0;
+  const backBtn = document.getElementById('backArrow');
+  window.addEventListener('scroll', () => {
+    const cur = window.scrollY;
+    backBtn.style.top = cur > lastScroll && cur > 100 ? '-60px' : '20px';
+    lastScroll = Math.max(cur, 0);
+  });
+</script>
+</body>
+</html>

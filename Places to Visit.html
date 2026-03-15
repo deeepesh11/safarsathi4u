@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Places to Visit — SafarSathi4U</title>
+  <link rel="stylesheet" href="safarsathi.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+  <style>
+    .places-section { padding: 5rem 2rem; background: rgba(224,217,217,0.35); min-height:100vh; }
+    .section-intro-p { text-align:center; max-width:700px; margin:0 auto 3rem; font-size:1.05rem; color:#555; line-height:1.8; }
+    .places-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.8rem; max-width:1200px; margin:0 auto; }
+    .place-card {
+      background:#fff; border-radius:12px; padding:1.8rem;
+      border-left:5px solid #008080;
+      box-shadow:0 4px 16px rgba(0,0,0,0.08);
+      transition:transform 0.3s, box-shadow 0.3s;
+    }
+    .place-card:hover { transform:translateY(-6px); box-shadow:0 12px 28px rgba(0,0,0,0.13); }
+    .place-card h3 { font-family:'Playfair Display',serif; color:#1a3c34; font-size:1.2rem; margin-bottom:0.5rem; }
+    .place-card p { font-size:0.92rem; color:#555; line-height:1.7; margin-bottom:0.7rem; }
+    .place-card ul { padding-left:1.2rem; }
+    .place-card ul li { font-size:0.88rem; color:#666; line-height:1.9; }
+    .place-card .ideal { font-size:0.85rem; color:#888; font-style:italic; margin-top:0.6rem; }
+  </style>
+</head>
+<body>
+<button id="backArrow" onclick="history.back()">⮪</button>
+<script src="shared-nav.js"></script>
+
+<section class="video-header">
+  <video autoplay muted loop playsinline class="header-video">
+    <source src="16292445-uhd_3840_2160_24fps.mp4" type="video/mp4"/>
+  </video>
+  <div class="overlay" data-aos="fade-up"><h1>Places to Visit in and Around Udaipur</h1></div>
+</section>
+
+<section class="places-section">
+  <h2 class="section-title" data-aos="fade-up">Must-Visit Places in Udaipur</h2>
+  <p class="section-intro-p" data-aos="fade-up" data-aos-delay="100">
+    SafarSathi4U curates the finest sightseeing experiences in Udaipur — from majestic palaces and serene lakes to hidden gems and spiritual sanctuaries.
+  </p>
+  <div class="places-grid">
+
+    <div class="place-card" data-aos="fade-up">
+      <h3>🕌 City Palace</h3>
+      <p>A majestic blend of Rajasthani and Mughal architecture by Lake Pichola.</p>
+      <ul><li>Panoramic views of the lake and city</li><li>Museum with royal artifacts</li><li>Sound & light show in the evening</li></ul>
+      <p class="ideal"><strong>Ideal for:</strong> History lovers, couples, families</p>
+    </div>
+
+    <div class="place-card" data-aos="fade-up" data-aos-delay="60">
+      <h3>🌅 Lake Pichola</h3>
+      <p>Scenic lake perfect for a romantic sunset boat ride.</p>
+      <ul><li>Boat rides to Jag Mandir & Jag Niwas</li><li>View of palaces and temples</li><li>Photography paradise</li></ul>
+      <p class="ideal"><strong>Ideal for:</strong> Couples, solo travelers, photographers</p>
+    </div>
+
+    <div class="place-card" data-aos="fade-up" data-aos-delay="100">
+      <h3>🌸 Saheliyon Ki Bari</h3>
+      <p>Royal garden with fountains, lotus pools, and marble elephants.</p>
+      <ul><li>Lush greenery and water features</li><li>Peaceful walkways and pavilions</li></ul>
+      <p class="ideal"><strong>Ideal for:</strong> Nature lovers, elderly travelers</p>
+    </div>
+
+    <div class="place-card" data-aos="fade-up" data-aos-delay="150">
+      <h3>🐯 Sajjangarh (Monsoon Palace)</h3>
+      <p>Hilltop palace offering breathtaking sunset views over Aravalli hills.</p>
+      <ul><li>Views of Fateh Sagar Lake</li><li>Wildlife sanctuary nearby</li><li>Magical sunsets</li></ul>
+      <p class="ideal"><strong>Ideal for:</strong> Sunset lovers, adventure seekers</p>
+    </div>
+
+    <div class="place-card" data-aos="fade-up" data-aos-delay="180">
+      <h3>🛶 Fateh Sagar Lake</h3>
+      <p>Calm lake with boating, cycling, and lakeside snacks.</p>
+      <ul><li>Nehru Garden in the center</li><li>Speed & paddle boats</li><li>Evening strolls</li></ul>
+      <p class="ideal"><strong>Ideal for:</strong> Families, youth groups</p>
+    </div>
+
+    <div class="place-card" data-aos="fade-up" data-aos-delay="210">
+      <h3>🏞 Badi Lake</h3>
+      <p>Hidden gem surrounded by hills – perfect for peaceful moments.</p>
+      <ul><li>Tranquil setting</li><li>Beautiful sunrise/sunset</li></ul>
+      <p class="ideal"><strong>Ideal for:</strong> Offbeat explorers, nature photographers</p>
+    </div>
+
+    <div class="place-card" data-aos="fade-up" data-aos-delay="240">
+      <h3>🧘‍♂️ Shilpgram</h3>
+      <p>Art & culture village showcasing Rajasthani traditions.</p>
+      <ul><li>Cultural performances</li><li>Handicraft shopping</li><li>Local food stalls</li></ul>
+      <p class="ideal"><strong>Ideal for:</strong> Culture lovers, shoppers</p>
+    </div>
+
+    <div class="place-card" data-aos="fade-up" data-aos-delay="270">
+      <h3>🚙 Outskirts Day Trip</h3>
+      <p>Day trips full of majestic architecture and wildlife exploration.</p>
+      <ul><li>Kumbhalgarh: 2nd longest wall in the world</li><li>Ranakpur: 1444 intricately carved pillars</li></ul>
+      <p class="ideal"><strong>Ideal for:</strong> Explorers, spiritual seekers</p>
+    </div>
+
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init({ duration: 1000, once: true });</script>
+</body>
+</html>
